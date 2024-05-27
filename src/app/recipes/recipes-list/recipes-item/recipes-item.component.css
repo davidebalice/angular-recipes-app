@@ -11,3 +11,11 @@
   object-fit: cover;
   transform: translate(-50%, -50%);
 }
+
+.cardRecipe{
+    max-width: 540px
+}
+
+.cardRecipe:hover{
+    background:#f1f1f1
+}
