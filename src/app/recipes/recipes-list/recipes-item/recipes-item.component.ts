@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Recipe } from '../../../model/recipes-model';
 import { RecipeService } from '../../../services/recipe.service';
 
@@ -10,15 +11,11 @@ import { RecipeService } from '../../../services/recipe.service';
 export class RecipesItemComponent implements OnInit {
   @Input() recipe: Recipe;
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(private recipeService: RecipeService, private router: Router) {}
 
-  ngOnInit(): void {
-  }
- 
-  //@Output() recipeSelected = new EventEmitter<void>();
+  ngOnInit(): void {}
 
   onSelected() {
-    //this.recipeSelected.emit();
-    this.recipeService.recipeSelected.emit(this.recipe);
+    this.router.navigate(['/recipes', this.recipe.id]);
   }
 }

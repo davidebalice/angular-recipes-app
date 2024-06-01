@@ -1,12 +1,8 @@
-<div class="row">
+<!--div class="row">
   <app-recipes-detail
-    *ngIf="selectedRecipe"
     [recipe]="selectedRecipe"
     (backRecipes)="onBackRecipes()"
   ></app-recipes-detail>
-</div>
+</div-->
 
-<app-recipes-list
-*ngIf="!selectedRecipe"
-  (recipeWasSelected)="selectedRecipe = $event"
-></app-recipes-list>
+<app-recipes-list></app-recipes-list>

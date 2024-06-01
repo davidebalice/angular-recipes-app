@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Recipe } from '../../model/recipes-model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -8,15 +9,16 @@ import { RecipeService } from '../../services/recipe.service';
   styleUrl: './recipes-detail.component.css',
 })
 export class RecipesDetailComponent implements OnInit {
-  @Input() recipe: Recipe;
-  @Output() backRecipes = new EventEmitter<void>();
+  recipe: Recipe;
 
-  constructor(private recipeService: RecipeService){
-
-  }
+  constructor(
+    private route: ActivatedRoute,
+    private recipeService: RecipeService,
+    private router: Router
+  ) {}
 
   onBackRecipes() {
-    this.backRecipes.emit();
+    this.router.navigate(['/recipes']);
   }
 
   onAddToShoppingList() {
@@ -24,6 +26,9 @@ export class RecipesDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.route.params.subscribe((params) => {
+      const id = +params['id'];
+      this.recipe = this.recipeService.getById(id);
+    });
   }
 }
