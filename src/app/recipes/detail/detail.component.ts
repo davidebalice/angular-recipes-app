@@ -4,11 +4,11 @@ import { Recipe } from '../../model/recipes-model';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({
-  selector: 'app-recipes-detail',
-  templateUrl: './recipes-detail.component.html',
-  styleUrl: './recipes-detail.component.css',
+  selector: 'app-detail',
+  templateUrl: './detail.component.html',
+  styleUrl: './detail.component.css',
 })
-export class RecipesDetailComponent implements OnInit {
+export class DetailComponent implements OnInit {
   recipe: Recipe;
 
   constructor(
@@ -23,6 +23,14 @@ export class RecipesDetailComponent implements OnInit {
 
   onAddToShoppingList() {
     this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+  }
+
+  onEditRecipe() {
+    this.router.navigate(['/recipes/' + this.recipe.id + '/edit']);
+  }
+
+  onDeleteRecipe() {
+    //this.router.navigate(['/recipes']);
   }
 
   ngOnInit(): void {

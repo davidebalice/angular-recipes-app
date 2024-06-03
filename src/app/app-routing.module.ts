@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 //import { ErrorPageComponent } from './errors/error-page/error-page.component';
+import { DetailComponent } from './recipes/detail/detail.component';
+import { EditComponent } from './recipes/edit/edit.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
-import { RecipesDetailComponent } from './recipes/recipes-detail/recipes-detail.component';
 
 const appRoutes: Routes = [
   { path: '', redirectTo: '/recipes', pathMatch: 'full' },
@@ -11,7 +12,9 @@ const appRoutes: Routes = [
     path: 'recipes',
     component: RecipesComponent,
   },
-  { path: 'recipes/:id', component: RecipesDetailComponent },
+  { path: 'recipes/new', component: EditComponent },
+  { path: 'recipes/:id', component: DetailComponent },
+  { path: 'recipes/:id/edit', component: EditComponent },
   {
     path: 'shopping-list',
     component: ShoppingListComponent,

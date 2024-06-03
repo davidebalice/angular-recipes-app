@@ -4,8 +4,8 @@ import { ShoppingListService } from '../../services/shopping-list.service';
 
 @Component({
   selector: 'app-shopping-edit',
-  templateUrl: './shopping-edit.component.html',
-  styleUrl: './shopping-edit.component.css',
+  templateUrl: './edit.component.html',
+  styleUrl: './edit.component.css',
 })
 export class ShoppingEditComponent implements OnInit {
   ingredients: Ingredient[];
