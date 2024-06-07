@@ -1,11 +1,12 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
 import { Recipe } from '../model/recipes-model';
 import { ShoppingListService } from './shopping-list.service';
-import { Subject } from 'rxjs';
 
 @Injectable()
 export class RecipeService {
+  recipesList = new Subject<Recipe[]>();
   recipeSelected = new Subject<Recipe>();
 
   constructor(private shoppingListService: ShoppingListService) {}
@@ -35,11 +36,43 @@ export class RecipeService {
     return this.recipes.slice();
   }
 
+  getRecipe(index: number) {
+    return this.recipes[index];
+  }
+
   getById(id: number): Recipe {
     return this.recipes.find((recipe) => recipe.id === id);
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
     this.shoppingListService.addIngredients(ingredients);
+  }
+
+  addRecipe(recipe: Recipe) {
+    this.recipes.push(recipe);
+    this.recipesList.next(this.recipes.slice());
+  }
+
+  /*
+   updateRecipe(index: number, newRecipe: Recipe) {
+    this.recipes[index] = newRecipe;
+    this.recipeList.next(this.recipes.slice());
+  }
+  */
+
+  updateRecipe(id: number, newRecipe: Recipe) {
+    const index = this.recipes.findIndex((recipe) => recipe.id === id);
+    if (index !== -1) {
+      newRecipe.id = id;
+      this.recipes[index] = newRecipe;
+    } else {
+      console.error('Recipe with the specified ID does not exist');
+    }
+    this.recipesList.next(this.recipes.slice());
+  }
+
+  deleteRecipe(index: number) {
+    this.recipes.splice(index, 1);
+    this.recipesList.next(this.recipes.slice());
   }
 }
