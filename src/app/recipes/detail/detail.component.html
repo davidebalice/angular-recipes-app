@@ -1,51 +1,67 @@
-<div class="row">
-  <button class="btn btn-primary" (click)="onBackRecipes()">< Back</button>
-  <div class="col-xs-12">
-    <img
-      [src]="recipe.imagePath"
-      alt="{{ recipe.name }}"
-      class="img-responsive"
-    />
+<div class="row" *ngIf="recipe$ | async as recipe; else loading">
+  <div class="row">
+    <button class="btn btn-primary" (click)="onBackRecipes()">< Back</button>
+    <div class="col-xs-12">
+      <img
+        [src]="recipe.imagePath"
+        alt="{{ recipe.name }}"
+        class="img-responsive"
+      />
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <h1>{{ recipe.name }}</h1>
+  <div class="row">
+    <div class="col-xs-12">
+      <h1>{{ recipe.title }}</h1>
+      <h4>{{ recipe.description }}</h4>
+    </div>
   </div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <div class="dropdown" appDropdown>
-      <button
-        class="btn btn-primary dropdown-toggle"
-        type="button"
-        id="dropdownMenu2"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
-      >
-        Manage Recipe <span class="caret"></span>
-      </button>
-      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-        <li><a (click)="onAddToShoppingList()" style="cursor: pointer;">To Shopping List</a></li>
-        <li><a (click)="onEditRecipe()" style="cursor: pointer;">Edit Recipe</a></li>
-        <li><a (click)="onDeleteRecipe()" style="cursor: pointer;">Delete Recipe</a></li>
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="dropdown" appDropdown>
+        <button
+          class="btn btn-primary dropdown-toggle"
+          type="button"
+          id="dropdownMenu2"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          Manage Recipe <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <li>
+            <a (click)="onAddToShoppingList()" style="cursor: pointer"
+              >To Shopping List</a
+            >
+          </li>
+          <li>
+            <a (click)="onEditRecipe()" style="cursor: pointer">Edit Recipe</a>
+          </li>
+          <li>
+            <a (click)="onDeleteRecipe()" style="cursor: pointer"
+              >Delete Recipe</a
+            >
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">Description</div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12">
+      <ul class="list-group">
+        <li
+          class="list-group-item"
+          *ngFor="let ingredient of recipe.ingredients; let i = index"
+        >
+          {{ ingredient.name }} - {{ ingredient.amount }}
+        </li>
       </ul>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-xs-12">Description</div>
-</div>
-<div class="row">
-  <div class="col-xs-12">
-    <ul class="list-group">
-      <li
-        class="list-group-item"
-        *ngFor="let ingredient of recipe.ingredients; let i = index"
-      >
-        {{ ingredient.name }} - {{ ingredient.amount }}
-      </li>
-    </ul>
-  </div>
-</div>
+<ng-template #loading>
+  <p>Caricamento...</p>
+</ng-template>

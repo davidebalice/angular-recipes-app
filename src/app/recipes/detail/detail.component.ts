@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { Recipe } from '../../model/recipes-model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -10,7 +11,8 @@ import { RecipeService } from '../../services/recipe.service';
 })
 export class DetailComponent implements OnInit {
   recipe: Recipe;
-  id: number;
+  recipe$: Observable<Recipe> | undefined;
+  id: number | undefined;
 
   constructor(
     private recipeService: RecipeService,
@@ -18,16 +20,21 @@ export class DetailComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit() {
-    this.route.params.subscribe((params: Params) => {
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
       this.id = +params['id'];
-      console.log(this.id);
-      this.recipe = this.recipeService.getById(this.id);
+      if (this.id !== undefined) {
+        this.recipe$ = this.recipeService.getById(this.id);
+      }
     });
   }
 
   onAddToShoppingList() {
-    this.recipeService.addIngredientsToShoppingList(this.recipe.ingredients);
+    if (this.recipe$) {
+      this.recipe$.subscribe((recipe) => {
+        this.recipeService.addIngredientsToShoppingList(recipe.ingredients);
+      });
+    }
   }
 
   onEditRecipe() {

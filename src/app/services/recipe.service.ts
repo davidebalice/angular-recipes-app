@@ -1,16 +1,88 @@
-import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Observable, Subject, catchError, map, throwError } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
 import { Recipe } from '../model/recipes-model';
 import { ShoppingListService } from './shopping-list.service';
 
 @Injectable()
-export class RecipeService {
+export class RecipeService implements OnInit, OnDestroy {
   recipesList = new Subject<Recipe[]>();
   recipeSelected = new Subject<Recipe>();
+  error = new Subject<string>();
+  csrfToken: Subject<string> = new Subject<string>();
+  csrfValue: string;
+  private recipes: Recipe[];
+  tokenValue: string;
 
-  constructor(private shoppingListService: ShoppingListService) {}
+  constructor(
+    private shoppingListService: ShoppingListService,
+    private http: HttpClient
+  ) {}
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.');
+  }
 
+  ngOnInit(): void {
+    this.csrfToken.subscribe((value: string) => {
+      this.csrfValue = value;
+    });
+  }
+
+  bearerToken =
+    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpb3Jvc3NpIiwiaWF0IjoxNzE4MTgzNzA3LCJleHAiOjE3MTgxODU1MDd9.mFTzHlzx8V20WDMswnbnIQFVjhwaJcb7NPXLQ8Jf6to';
+
+  getCsrf() {
+    const bearerToken = this.bearerToken;
+    const csrfUrl = '/csrf';
+
+    this.http
+      .post(csrfUrl, null, {
+        headers: new HttpHeaders({
+          Authorization: `Bearer ${bearerToken.trim()}`,
+        }),
+      })
+      .subscribe(
+        (response: any) => {
+          this.csrfToken.next(response.token.trim());
+          this.csrfValue = response.token.trim();
+          this.error.next(null);
+        },
+        (error) => {
+          console.error('Error fetching CSRF token', error);
+          this.error.next(error.message);
+        }
+      );
+  }
+
+  fetchRecipes() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      Authorization: `Bearer ${this.bearerToken}`,
+    });
+    let params = new HttpParams();
+    params = params.append('test1', '1');
+    params = params.append('test2', '1');
+    return this.http
+      .get<{ [key: string]: Recipe }>('/recipes/', {
+        headers,
+        params,
+      })
+      .pipe(
+        map((responseData) => {
+          const recipeArray: Recipe[] = [];
+          for (const key in responseData) {
+            //if (responseData.hasOwnProperty(key)) {
+            recipeArray.push({ ...responseData[key] });
+            // }
+          }
+          return recipeArray;
+        })
+      );
+  }
+
+  /*
   private recipes: Recipe[] = [
     new Recipe(
       1,
@@ -31,6 +103,7 @@ export class RecipeService {
       ]
     ),
   ];
+*/
 
   getRecipes() {
     return this.recipes.slice();
@@ -40,8 +113,34 @@ export class RecipeService {
     return this.recipes[index];
   }
 
-  getById(id: number): Recipe {
-    return this.recipes.find((recipe) => recipe.id === id);
+  getById(id: number): Observable<Recipe> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      Authorization: `Bearer ${this.bearerToken}`,
+    });
+
+    let params = new HttpParams();
+    params = params.append('test1', '1');
+    params = params.append('test2', '1');
+
+    return this.http
+      .get<Recipe>(`/recipes/${id}`, {
+        headers,
+        params,
+      })
+      .pipe(
+        map((responseData) => {
+          console.log(responseData);
+          responseData.imagePath = null;
+          responseData.ingredients = null;
+          return responseData;
+        }),
+        catchError((error) => {
+          console.error('Errore nella richiesta HTTP', error);
+          return throwError(error);
+        })
+      );
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {
