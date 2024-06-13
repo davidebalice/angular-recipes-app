@@ -14,7 +14,7 @@ export class AuthService {
 
   login(username: string, password: string): Observable<any> {
     return this.http
-      .post<any>(this.authUrl, { username: username, password: password })
+      .post<any>(this.authUrl, { username, password })
       .pipe(tap((response) => this.setToken(response)));
   }
 
@@ -23,7 +23,7 @@ export class AuthService {
     localStorage.setItem('token', token);
     this.router.navigate(['/recipes']);
   }
-  
+
   logout(): void {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);

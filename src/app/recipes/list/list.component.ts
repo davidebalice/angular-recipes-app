@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Recipe } from '../../model/recipes-model';
@@ -10,9 +10,7 @@ import { RecipeService } from '../../services/recipe.service';
   styleUrl: './list.component.css',
 })
 export class ListComponent implements OnInit {
-  //recipes: Recipe[];
   subscription: Subscription;
-
   loadedRecipes: Recipe[] = [];
   isLoading = true;
   error = null;
@@ -26,39 +24,28 @@ export class ListComponent implements OnInit {
     private route: ActivatedRoute
   ) {}
 
-  /*
   ngOnInit() {
-    this.subscription = this.recipeService.recipesList.subscribe(
-      (recipes: Recipe[]) => {
-        this.recipes = recipes;
-      }
-    );
-    this.recipes = this.recipeService.getRecipes();
-  }
-
-
-
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-*/
-
-  ngOnInit() {
-  
     this.errorSub = this.recipeService.error.subscribe((errorMessage) => {
       this.error = errorMessage;
     });
-  
+
     this.isLoading = true;
     this.recipeService.fetchRecipes().subscribe((recipes) => {
       this.isLoading = false;
-      console.log(recipes);
       this.loadedRecipes = recipes;
     });
   }
 
   ngOnDestroy(): void {
-   this.errorSub.unsubscribe();
+    this.errorSub.unsubscribe();
+  }
+/*
+  onUpdateRecipes(updatedRecipes: Recipe[]) {
+    this.loadedRecipes = updatedRecipes;
+  }*/
+
+  onUpdateRecipes() {
+    this.onFetchRecipes();
   }
 
   /*
@@ -76,23 +63,18 @@ export class ListComponent implements OnInit {
 
   onFetchRecipes() {
     this.isLoading = true;
-    this.recipeService.fetchRecipes().subscribe(
-      (recipes) => {
+    this.recipeService.fetchRecipes().subscribe({
+      next: (recipes) => {
         this.isLoading = false;
         this.loadedRecipes = recipes;
       },
-      (error) => {
+      error: (error) => {
+        this.isLoading = false;
         this.error = error.message;
-      }
-    );
+        console.log(error);
+      },
+    });
   }
-  /*
-  onDeleteProducts(id: string) {
-    this.recipeService.deleteProduct(id);
-  } 
-  
-
-*/
 
   onNewRecipe() {
     this.router.navigate(['new'], { relativeTo: this.route });

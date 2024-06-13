@@ -5,19 +5,22 @@ export class Recipe {
   public title: string;
   public description: string;
   public imagePath: string;
+  public idCategory: number;
   public ingredients: Ingredient[];
 
   constructor(
     id: number,
     title: string,
-    desc: string,
+    description: string,
+    idCategory: number,
     imagePath: string,
     ingredients: Ingredient[]
   ) {
     this.id = id;
     this.title = title;
-    this.description = desc;
+    this.description = description;
     this.imagePath = imagePath;
+    this.idCategory = idCategory;
     this.ingredients = ingredients;
   }
 }

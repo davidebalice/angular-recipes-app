@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { Observable, finalize, map, take } from 'rxjs';
 import { Recipe } from '../../model/recipes-model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -16,6 +16,7 @@ export class EditComponent implements OnInit {
   recipeForm: FormGroup;
   recipe: Recipe;
   recipe$: Observable<Recipe> | undefined;
+  submitting = false;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -51,12 +52,26 @@ export class EditComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.editMode) {
-      this.recipeService.updateRecipe(this.id, this.recipeForm.value);
-    } else {
-      this.recipeService.addRecipe(this.recipeForm.value);
+    if (this.recipeForm.valid && !this.submitting) {
+      this.submitting = true;
+      this.recipeService
+        .updateRecipe(this.id, this.recipeForm.value)
+        .pipe(
+          take(1),
+          finalize(() => {
+            this.submitting = false;
+            this.onCancel();
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            console.log('Recipe updated successfully', response);
+          },
+          error: (error) => {
+            console.error('Error updating recipe', error);
+          },
+        });
     }
-    this.onCancel();
   }
 
   onAddIngredient() {

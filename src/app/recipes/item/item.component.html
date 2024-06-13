@@ -1,14 +1,23 @@
-<div class="card mb-3 cardRecipe" (click)="onSelected()">
+<div class="card mb-3 cardRecipe">
   <div class="row g-0">
     <div class="col-md-4 imgContainer">
-      <img [src]="recipe.imagePath" alt="{{ recipe.title }}" class="imgRecipe" />
+      <img
+        [src]="recipe.imagePath"
+        alt="{{ recipe.title }}"
+        class="imgRecipe"
+      />
     </div>
     <div class="col-md-8">
       <div class="card-body">
         <h5 class="card-title">{{ recipe.title }}</h5>
         <p class="card-text">{{ recipe.description }}</p>
         <p class="card-text">
-          <small class="text-muted">Last updated 3 mins ago</small>
+          <button class="btn btn-success" (click)="onSelected()">
+            Detail
+          </button>
+          <button class="btn btn-danger" (click)="onDeleteRecipe(recipe.id)">
+            Delete
+          </button>
         </p>
       </div>
     </div>

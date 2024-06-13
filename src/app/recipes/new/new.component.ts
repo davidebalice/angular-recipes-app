@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, map } from 'rxjs';
-import { Recipe } from '../../model/recipes-model';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { RecipeService } from '../../services/recipe.service';
+import { finalize, take } from 'rxjs';
 
 @Component({
   selector: 'app-new',
@@ -12,6 +17,7 @@ import { RecipeService } from '../../services/recipe.service';
 })
 export class NewComponent implements OnInit {
   recipeForm: FormGroup;
+  submitting = false;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -20,16 +26,40 @@ export class NewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    
+    this.recipeForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      imagePath: [''],
+      description: [''],
+      idCategory: 0,
+      ingredients: this.formBuilder.array([]),
+    });
   }
 
   onSubmit() {
-    this.recipeService.addRecipe(this.recipeForm.value);
-    this.onCancel();
+    if (this.recipeForm.valid && !this.submitting) {
+      this.submitting = true;
+      this.recipeService.addRecipe(this.recipeForm.value)
+        .pipe(
+          take(1),
+          finalize(() => {
+            this.submitting = false;
+            this.onCancel();
+          })
+        )
+        .subscribe({
+          next: (response) => {
+            console.log('Recipe added successfully', response);
+          },
+          error: (error) => {
+            //console.error('Error adding recipe', error);
+          }
+        });
+    }
   }
 
   onAddIngredient() {
@@ -51,7 +81,4 @@ export class NewComponent implements OnInit {
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
   }
-
-  
-   
 }

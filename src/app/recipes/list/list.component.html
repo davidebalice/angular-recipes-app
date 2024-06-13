@@ -12,5 +12,6 @@
       *ngFor="let recipeItem of loadedRecipes"
       [recipe]="recipeItem"
     ></app-item>
+    <div *ngIf="isLoading">loading...</div>
   </div>
 </div>

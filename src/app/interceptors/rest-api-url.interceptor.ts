@@ -16,7 +16,6 @@ export class RestApiUrlInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
     if (!req.url.startsWith('http')) {
-      // Aggiungi la base URL alla richiesta
       const apiReq = req.clone({ url: `${this.baseUrl}${req.url}` });
       return next.handle(apiReq);
     }

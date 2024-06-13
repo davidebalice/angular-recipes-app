@@ -1,6 +1,12 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+  HttpParams,
+} from '@angular/common/http';
 import { Injectable, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, catchError, map, throwError } from 'rxjs';
+import { Router } from '@angular/router';
+import { Observable, Subject, catchError, map, tap, throwError } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
 import { Recipe } from '../model/recipes-model';
 import { ShoppingListService } from './shopping-list.service';
@@ -17,7 +23,8 @@ export class RecipeService implements OnInit, OnDestroy {
 
   constructor(
     private shoppingListService: ShoppingListService,
-    private http: HttpClient
+    private http: HttpClient,
+    private router: Router
   ) {}
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
@@ -29,41 +36,36 @@ export class RecipeService implements OnInit, OnDestroy {
     });
   }
 
-  bearerToken =
-    'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtYXJpb3Jvc3NpIiwiaWF0IjoxNzE4MTgzNzA3LCJleHAiOjE3MTgxODU1MDd9.mFTzHlzx8V20WDMswnbnIQFVjhwaJcb7NPXLQ8Jf6to';
-
-  getCsrf() {
-    const bearerToken = this.bearerToken;
-    const csrfUrl = '/csrf';
-
-    this.http
-      .post(csrfUrl, null, {
-        headers: new HttpHeaders({
-          Authorization: `Bearer ${bearerToken.trim()}`,
-        }),
-      })
-      .subscribe(
-        (response: any) => {
-          this.csrfToken.next(response.token.trim());
-          this.csrfValue = response.token.trim();
-          this.error.next(null);
-        },
-        (error) => {
-          console.error('Error fetching CSRF token', error);
-          this.error.next(error.message);
-        }
-      );
-  }
-
-  fetchRecipes() {
-    const headers = new HttpHeaders({
+  private getHeaders(): HttpHeaders {
+    return new HttpHeaders({
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
-      Authorization: `Bearer ${this.bearerToken}`,
     });
+  }
+
+  getCsrf() {
+    const csrfUrl = '/csrf';
+
+    this.http.post(csrfUrl, null, {}).subscribe(
+      (response: any) => {
+        this.csrfToken.next(response.token.trim());
+        this.csrfValue = response.token.trim();
+        this.error.next(null);
+      },
+      (error) => {
+        console.error('Error fetching CSRF token', error);
+        this.error.next(error.message);
+      }
+    );
+  }
+
+  fetchRecipes(): Observable<Recipe[]> {
+    const headers = this.getHeaders();
+
     let params = new HttpParams();
     params = params.append('test1', '1');
     params = params.append('test2', '1');
+
     return this.http
       .get<{ [key: string]: Recipe }>('/recipes/', {
         headers,
@@ -73,11 +75,19 @@ export class RecipeService implements OnInit, OnDestroy {
         map((responseData) => {
           const recipeArray: Recipe[] = [];
           for (const key in responseData) {
-            //if (responseData.hasOwnProperty(key)) {
-            recipeArray.push({ ...responseData[key] });
-            // }
+            if (responseData.hasOwnProperty(key)) {
+              recipeArray.push({ ...responseData[key] });
+            }
           }
+          this.recipes = recipeArray;
+          this.recipesList.next(this.recipes.slice());
           return recipeArray;
+        }),
+        catchError((error) => {
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => new Error('Error loading recipes.'));
         })
       );
   }
@@ -114,11 +124,7 @@ export class RecipeService implements OnInit, OnDestroy {
   }
 
   getById(id: number): Observable<Recipe> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
-      Authorization: `Bearer ${this.bearerToken}`,
-    });
+    const headers = this.getHeaders();
 
     let params = new HttpParams();
     params = params.append('test1', '1');
@@ -131,7 +137,6 @@ export class RecipeService implements OnInit, OnDestroy {
       })
       .pipe(
         map((responseData) => {
-          console.log(responseData);
           responseData.imagePath = null;
           responseData.ingredients = null;
           return responseData;
@@ -148,30 +153,62 @@ export class RecipeService implements OnInit, OnDestroy {
   }
 
   addRecipe(recipe: Recipe) {
-    this.recipes.push(recipe);
-    this.recipesList.next(this.recipes.slice());
+    const headers = this.getHeaders();
+
+    return this.http
+      .post(`/recipes/add`, recipe, {
+        withCredentials: true,
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          console.log('Response from backend:', response);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => new Error('Error adding product.'));
+        })
+      );
   }
 
   /*
-   updateRecipe(index: number, newRecipe: Recipe) {
-    this.recipes[index] = newRecipe;
-    this.recipeList.next(this.recipes.slice());
-  }
-  */
-
   updateRecipe(id: number, newRecipe: Recipe) {
     const index = this.recipes.findIndex((recipe) => recipe.id === id);
     if (index !== -1) {
       newRecipe.id = id;
       this.recipes[index] = newRecipe;
+      this.recipesList.next(this.recipes.slice()); 
     } else {
       console.error('Recipe with the specified ID does not exist');
     }
-    this.recipesList.next(this.recipes.slice());
+  }*/
+
+  updateRecipe(id: number, dataRecipe: Recipe) {
+    const headers = this.getHeaders();
+
+    return this.http
+      .patch(`/recipes/${id}`, dataRecipe, {
+        withCredentials: true,
+        responseType: 'text',
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          console.log('Response from backend:', response);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => new Error('Error adding product.'));
+        })
+      );
   }
 
-  deleteRecipe(index: number) {
-    this.recipes.splice(index, 1);
-    this.recipesList.next(this.recipes.slice());
+  deleteRecipe(recipeId: number) {
+    const headers = this.getHeaders();
+    return this.http.delete(`/recipes/${recipeId}`, { headers });
   }
 }
