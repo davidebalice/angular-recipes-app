@@ -137,8 +137,6 @@ export class RecipeService implements OnInit, OnDestroy {
       })
       .pipe(
         map((responseData) => {
-          responseData.imagePath = null;
-          responseData.ingredients = null;
           return responseData;
         }),
         catchError((error) => {

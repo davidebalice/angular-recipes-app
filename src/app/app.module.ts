@@ -20,6 +20,7 @@ import { RecipeService } from './services/recipe.service';
 import { ShoppingListService } from './services/shopping-list.service';
 import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ReloadComponent } from './reload/reload.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
     EditComponent,
     NewComponent,
     LoginComponent,
+    ReloadComponent,
   ],
   imports: [
     BrowserModule,

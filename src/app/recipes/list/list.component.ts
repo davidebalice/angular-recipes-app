@@ -39,27 +39,10 @@ export class ListComponent implements OnInit {
   ngOnDestroy(): void {
     this.errorSub.unsubscribe();
   }
-/*
-  onUpdateRecipes(updatedRecipes: Recipe[]) {
-    this.loadedRecipes = updatedRecipes;
-  }*/
 
   onUpdateRecipes() {
     this.onFetchRecipes();
   }
-
-  /*
-  onCreateProduct(productForm: NgForm, productData: Product) {
-    this.productService.createProduct(
-      productData.id,
-      productData.name,
-      productData.description,
-      productData.idCategory,
-      productData.price
-    );
-    productForm.reset();
-  }
-*/
 
   onFetchRecipes() {
     this.isLoading = true;

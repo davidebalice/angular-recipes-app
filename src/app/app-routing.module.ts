@@ -6,8 +6,9 @@ import { DetailComponent } from './recipes/detail/detail.component';
 import { EditComponent } from './recipes/edit/edit.component';
 import { NewComponent } from './recipes/new/new.component';
 import { RecipesComponent } from './recipes/recipes.component';
-import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ReloadComponent } from './reload/reload.component';
 import { AuthGuard } from './services/auth.guard';
+import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -17,6 +18,7 @@ const appRoutes: Routes = [
     component: RecipesComponent,
     canActivate: [AuthGuard],
   },
+  { path: 'reload', component: ReloadComponent },
   { path: 'recipes/new', component: NewComponent },
   { path: 'recipes/:id', component: DetailComponent },
   { path: 'recipes/:id/edit', component: EditComponent },

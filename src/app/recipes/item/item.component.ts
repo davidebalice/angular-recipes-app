@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, take } from 'rxjs';
 import { Recipe } from '../../model/recipes-model';
@@ -31,10 +31,9 @@ export class ItemComponent implements OnInit {
         })
       )
       .subscribe((recipes) => {
-         // recipes = recipes.filter((recipe) => recipe.id !== this.recipe.id);
-       // this.updateRecipes.emit(recipes);
-        this.router.navigate(['/recipes']);
-        //this.recipeService.fetchRecipes();
+        this.router.navigate(['/reload']).then(() => {
+          this.router.navigate(['/recipes']);
+        });
         console.log('Updated recipes after deletion', recipes);
       });
   }
