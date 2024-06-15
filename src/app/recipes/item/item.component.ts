@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, take } from 'rxjs';
-import { Recipe } from '../../model/recipes-model';
+import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({

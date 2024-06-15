@@ -21,6 +21,11 @@ const appRoutes: Routes = [
   { path: 'reload', component: ReloadComponent },
   { path: 'recipes/new', component: NewComponent },
   { path: 'recipes/:id', component: DetailComponent },
+  {
+    path: 'recipes/idcat/:idcat',
+    component: RecipesComponent,
+    canActivate: [AuthGuard],
+  },
   { path: 'recipes/:id/edit', component: EditComponent },
   {
     path: 'shopping-list',

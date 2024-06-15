@@ -7,12 +7,16 @@
 <hr />
 
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-12">
     <ng-container *ngIf="loadedRecipes.length > 0; else noRecipes">
-      <app-item
-        *ngFor="let recipeItem of loadedRecipes"
-        [recipe]="recipeItem"
-      ></app-item>
+      <div class="row">
+        <div
+          class="col-12 col-md-4 mb-4"
+          *ngFor="let recipeItem of loadedRecipes"
+        >
+          <app-item [recipe]="recipeItem"></app-item>
+        </div>
+      </div>
     </ng-container>
     <ng-template #noRecipes>
       <div>No recipes available.</div>

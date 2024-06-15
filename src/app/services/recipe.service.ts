@@ -8,8 +8,9 @@ import { Injectable, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable, Subject, catchError, map, tap, throwError } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
-import { Recipe } from '../model/recipes-model';
+import { Recipe } from '../model/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
+import { Category } from '../model/category.model';
 
 @Injectable()
 export class RecipeService implements OnInit, OnDestroy {
@@ -26,6 +27,7 @@ export class RecipeService implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router
   ) {}
+  
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
@@ -59,20 +61,32 @@ export class RecipeService implements OnInit, OnDestroy {
     );
   }
 
-  fetchRecipes(): Observable<Recipe[]> {
+  fetchRecipes(keyword?: string, category?: number): Observable<Recipe[]> {
     const headers = this.getHeaders();
-
+    let apiUrl = '/recipes/';
     let params = new HttpParams();
-    params = params.append('test1', '1');
-    params = params.append('test2', '1');
 
+    if (keyword) {
+      apiUrl = '/recipes/search';
+      params = params.append('keyword', keyword);
+    }
+    else{
+      if (category>0) {
+        apiUrl = '/recipes/searchByCategoryId';
+        console.log('param category');
+        console.log(category);
+        params = params.append('categoryId', category);
+      }
+    }
+    
     return this.http
-      .get<{ [key: string]: Recipe }>('/recipes/', {
+      .get<{ Recipe }>(apiUrl, {
         headers,
         params,
       })
       .pipe(
         map((responseData) => {
+          console.log(responseData);
           const recipeArray: Recipe[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
@@ -170,18 +184,6 @@ export class RecipeService implements OnInit, OnDestroy {
         })
       );
   }
-
-  /*
-  updateRecipe(id: number, newRecipe: Recipe) {
-    const index = this.recipes.findIndex((recipe) => recipe.id === id);
-    if (index !== -1) {
-      newRecipe.id = id;
-      this.recipes[index] = newRecipe;
-      this.recipesList.next(this.recipes.slice()); 
-    } else {
-      console.error('Recipe with the specified ID does not exist');
-    }
-  }*/
 
   updateRecipe(id: number, dataRecipe: Recipe) {
     const headers = this.getHeaders();

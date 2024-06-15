@@ -1,22 +1,22 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { Recipe } from '../../model/recipes-model';
+import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
-  styleUrl: './list.component.css',
+  styleUrls: ['./list.component.css'],
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   loadedRecipes: Recipe[] = [];
   isLoading = true;
   error = null;
   private errorSub: Subscription;
-  csrf = null;
-  csrfSub: Subscription;
+  private queryParamSub: Subscription;
+  private routeParamsSub: Subscription;
 
   constructor(
     private recipeService: RecipeService,
@@ -29,24 +29,47 @@ export class ListComponent implements OnInit {
       this.error = errorMessage;
     });
 
-    this.isLoading = true;
-    this.recipeService.fetchRecipes().subscribe((recipes) => {
-      this.isLoading = false;
-      this.loadedRecipes = recipes;
+    this.queryParamSub = this.route.queryParams.subscribe((params) => {
+      const searchKey = params['key'] || '';
+      const categoryId = parseInt(this.route.snapshot.paramMap.get('idcat'));
+      if (categoryId) {
+        this.fetchRecipes(searchKey, categoryId);
+      } else {
+        this.fetchRecipes(searchKey);
+      }
+    });
+
+    this.routeParamsSub = this.route.params.subscribe((params) => {
+      const categoryId = params['idcat'] || 0;
+      const searchKey = this.route.snapshot.queryParams['key'] || '';
+      if (categoryId) {
+        this.fetchRecipes(searchKey, categoryId);
+      } else {
+        this.fetchRecipes(searchKey);
+      }
     });
   }
 
   ngOnDestroy(): void {
-    this.errorSub.unsubscribe();
+    if (this.errorSub) {
+      this.errorSub.unsubscribe();
+    }
+    if (this.queryParamSub) {
+      this.queryParamSub.unsubscribe();
+    }
+    if (this.routeParamsSub) {
+      this.routeParamsSub.unsubscribe();
+    }
   }
 
   onUpdateRecipes() {
-    this.onFetchRecipes();
+    this.fetchRecipes();
   }
 
-  onFetchRecipes() {
+  fetchRecipes(searchKey?: string, categoryId?: number) {
+    console.log(categoryId);
     this.isLoading = true;
-    this.recipeService.fetchRecipes().subscribe({
+    this.recipeService.fetchRecipes(searchKey, categoryId).subscribe({
       next: (recipes) => {
         this.isLoading = false;
         this.loadedRecipes = recipes;
@@ -58,7 +81,17 @@ export class ListComponent implements OnInit {
       },
     });
   }
-
+  /*
+  filterRecipes(searchKey: string) {
+    if (searchKey && searchKey.trim().length > 0) {
+      this.filteredRecipes = this.loadedRecipes.filter((recipe) =>
+        recipe.title.toLowerCase().includes(searchKey.toLowerCase())
+      );
+    } else {
+      this.filteredRecipes = this.loadedRecipes;
+    }
+  }
+*/
   onNewRecipe() {
     this.router.navigate(['new'], { relativeTo: this.route });
   }

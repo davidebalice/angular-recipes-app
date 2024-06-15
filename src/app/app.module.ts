@@ -21,6 +21,7 @@ import { ShoppingListService } from './services/shopping-list.service';
 import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ReloadComponent } from './reload/reload.component';
+import { CategoriesComponent } from './recipes/categories/categories.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ReloadComponent } from './reload/reload.component';
     NewComponent,
     LoginComponent,
     ReloadComponent,
+    CategoriesComponent,
   ],
   imports: [
     BrowserModule,

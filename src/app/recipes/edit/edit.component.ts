@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, finalize, map, take } from 'rxjs';
-import { Recipe } from '../../model/recipes-model';
+import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({

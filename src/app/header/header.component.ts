@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Component({
@@ -6,20 +8,33 @@ import { AuthService } from '../services/auth.service';
   templateUrl: './header.component.html',
   styleUrl: './header.component.css',
 })
-export class HeaderComponent {
-  /*
-  @Output() featureSelected = new EventEmitter<string>();
+export class HeaderComponent implements OnInit, OnDestroy {
+  isLoggedIn: boolean = false;
+  private authSubscription: Subscription;
 
-  onSelect(feature: string) {
-    this.featureSelected.emit(feature);
-   
-  } 
-  */
-
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onLogout() {
     this.authService.logout();
-    
+  }
+
+  onSearch(searchTerm: string): void {
+    if (searchTerm && searchTerm.trim().length > 0) {
+      this.router.navigate(['/recipes'], { queryParams: { key: searchTerm } });
+    } else this.router.navigate(['/recipes']);
+  }
+
+  ngOnInit(): void {
+    this.authSubscription = this.authService
+      .isLoggedIn()
+      .subscribe((isLoggedIn) => {
+        this.isLoggedIn = isLoggedIn;
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.authSubscription) {
+      this.authSubscription.unsubscribe();
+    }
   }
 }
