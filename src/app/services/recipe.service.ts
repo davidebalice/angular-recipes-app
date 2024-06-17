@@ -187,7 +187,7 @@ export class RecipeService implements OnInit, OnDestroy {
 
   updateRecipe(id: number, dataRecipe: Recipe) {
     const headers = this.getHeaders();
-
+console.log(dataRecipe);
     return this.http
       .patch(`/recipes/${id}`, dataRecipe, {
         withCredentials: true,

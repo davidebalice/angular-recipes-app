@@ -1,21 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { Observable, Subject, catchError, map, throwError } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
-import { ShoppingList } from '../model/shoppingList.model';
-import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export class ShoppingListService {
-  shoppingListArray = new Subject<ShoppingList[]>();
-  ingredientChanged = new Subject<Ingredient[]>();
-  private shoppingList: ShoppingList[];
+  shoppingListArray = new Subject<Ingredient[]>();
+  shoppingListChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
-  ingredients: Ingredient[];
+  shoppingList: Ingredient[];
 
-  constructor(
-    private shoppingListService: ShoppingListService,
-    private http: HttpClient,
-    private router: Router
-  ) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
@@ -24,9 +20,9 @@ export class ShoppingListService {
     });
   }
 
-  fetchShoppingList(): Observable<ShoppingList[]> {
+  fetchShoppingList(): Observable<Ingredient[]> {
     const headers = this.getHeaders();
-    let apiUrl = '/shopping-list/';
+    let apiUrl = '/shoppinglist/';
 
     return this.http
       .get<{ Recipe }>(apiUrl, {
@@ -35,7 +31,7 @@ export class ShoppingListService {
       .pipe(
         map((responseData) => {
           console.log(responseData);
-          const slArray: ShoppingList[] = [];
+          const slArray: Ingredient[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
               slArray.push({ ...responseData[key] });
@@ -54,35 +50,43 @@ export class ShoppingListService {
       );
   }
 
-  onIngredientAdded(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
+  onIngredientAdded(ingredients: Ingredient) {
+    this.shoppingList.push(ingredients);
   }
 
   getIngredients() {
-    return this.ingredients;
+    return this.shoppingList;
   }
 
   getIngredient(index: number) {
-    return this.ingredients[index];
+    return this.shoppingList[index];
   }
 
   addIngredient(ingredient: Ingredient) {
-    this.ingredients.push(ingredient);
+    this.shoppingList.push(ingredient);
   }
 
   addIngredients(ingredients: Ingredient[]) {
-    for (let ingredient of ingredients) {
-      this.ingredients.push(ingredient);
-    }
+    const headers = this.getHeaders();
+    const apiUrl = '/shoppinglist/add-ingredients';
+
+    this.http.post<Ingredient[]>(apiUrl, ingredients, { headers }).subscribe({
+      next: (responseData) => {
+//salva messaggio
+      },
+      error: (error) => {
+        console.error('Error adding ingredients:', error);
+      }
+    });
   }
 
-  updateIngredient(index: number, newIngredient: Ingredient) {
-    this.ingredients[index] = newIngredient;
-    this.ingredientChanged.next(this.ingredients.slice());
+  updateShoppingList(index: number, newShoppingList: Ingredient) {
+    this.shoppingList[index] = newShoppingList;
+    this.shoppingListChanged.next(this.shoppingList.slice());
   }
 
-  deleteIngredient(index: number) {
-    this.ingredients.splice(index, 1);
-    this.ingredientChanged.next(this.ingredients.slice());
+  deleteShoppingList(index: number) {
+    this.shoppingList.splice(index, 1);
+    this.shoppingListChanged.next(this.shoppingList.slice());
   }
 }
