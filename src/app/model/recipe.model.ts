@@ -4,7 +4,7 @@ export class Recipe {
   public id: number;
   public title: string;
   public description: string;
-  public imagePath: string;
+  public imageUrl: string;
   public idCategory: number;
   public ingredients: Ingredient[];
 
@@ -13,13 +13,13 @@ export class Recipe {
     title: string,
     description: string,
     idCategory: number,
-    imagePath: string,
+    imageUrl: string,
     ingredients: Ingredient[]
   ) {
     this.id = id;
     this.title = title;
     this.description = description;
-    this.imagePath = imagePath;
+    this.imageUrl = imageUrl;
     this.idCategory = idCategory;
     this.ingredients = ingredients;
   }

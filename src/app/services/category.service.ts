@@ -1,6 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, catchError, tap, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  Observable,
+  Subscription,
+  catchError,
+  tap,
+  throwError,
+} from 'rxjs';
 import { Category } from '../model/category.model';
 
 @Injectable({
@@ -9,6 +16,7 @@ import { Category } from '../model/category.model';
 export class CategoryService {
   private categoriesUrl = '/categories/';
   private categoriesSubject = new BehaviorSubject<Category[]>([]);
+  private subscription: Subscription;
   constructor(private http: HttpClient) {
     this.fetchCategories();
   }
@@ -22,7 +30,7 @@ export class CategoryService {
 
   fetchCategories(): void {
     const headers = this.getHeaders();
-    this.http
+    this.subscription = this.http
       .get<Category[]>(this.categoriesUrl, { headers })
 
       .pipe(
@@ -41,4 +49,9 @@ export class CategoryService {
     return this.categoriesSubject.asObservable();
   }
 
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
+  }
 }

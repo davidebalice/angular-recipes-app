@@ -10,7 +10,7 @@
         *ngFor="let ingredient of shoppingList; let i = index"
         (click)="onEditItem(i)"
       >
-        {{ ingredient.name }} ({{ ingredient.amount }})
+        {{ ingredient.title }} ({{ ingredient.quantity }})
       </a>
     </ul>
   </div>

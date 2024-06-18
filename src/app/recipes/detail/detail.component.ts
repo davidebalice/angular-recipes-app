@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -13,6 +13,7 @@ export class DetailComponent implements OnInit {
   recipe: Recipe;
   recipe$: Observable<Recipe> | undefined;
   id: number | undefined;
+  private subscription: Subscription;
 
   constructor(
     private recipeService: RecipeService,
@@ -21,7 +22,7 @@ export class DetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.subscription = this.route.params.subscribe((params) => {
       this.id = +params['id'];
       if (this.id !== undefined) {
         this.recipe$ = this.recipeService.getById(this.id);
@@ -31,7 +32,7 @@ export class DetailComponent implements OnInit {
 
   onAddToShoppingList() {
     if (this.recipe$) {
-      this.recipe$.subscribe((recipe) => {
+      this.subscription = this.recipe$.subscribe((recipe) => {
         this.recipeService.addIngredientsToShoppingList(recipe.ingredients);
       });
     }
@@ -48,5 +49,11 @@ export class DetailComponent implements OnInit {
 
   onBackRecipes() {
     this.router.navigate(['/recipes']);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

@@ -2,14 +2,14 @@
   <div class="row g-0">
     <div class="col-md-4 imgContainer">
       <img
-        [src]="recipe.imagePath"
+        [src]="recipe.imageUrl"
         alt="{{ recipe.title }}"
         class="imgRecipe"
       />
     </div>
     <div class="col-md-8">
       <div class="card-body">
-        <h5 class="card-title">{{ recipe.title }}</h5>
+        <h5 class="card-title">{{ recipe.title }}{{ recipe.imageUrl }}</h5>
         <p class="card-text">{{ recipe.description }}</p>
         <p class="card-text">
           <button class="btn btn-success" (click)="onSelected()">

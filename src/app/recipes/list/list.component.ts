@@ -51,6 +51,9 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
     if (this.errorSub) {
       this.errorSub.unsubscribe();
     }
@@ -67,9 +70,8 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   fetchRecipes(searchKey?: string, categoryId?: number) {
-    console.log(categoryId);
     this.isLoading = true;
-    this.recipeService.fetchRecipes(searchKey, categoryId).subscribe({
+    this.subscription = this.recipeService.fetchRecipes(searchKey, categoryId).subscribe({
       next: (recipes) => {
         this.isLoading = false;
         this.loadedRecipes = recipes;
@@ -81,17 +83,7 @@ export class ListComponent implements OnInit, OnDestroy {
       },
     });
   }
-  /*
-  filterRecipes(searchKey: string) {
-    if (searchKey && searchKey.trim().length > 0) {
-      this.filteredRecipes = this.loadedRecipes.filter((recipe) =>
-        recipe.title.toLowerCase().includes(searchKey.toLowerCase())
-      );
-    } else {
-      this.filteredRecipes = this.loadedRecipes;
-    }
-  }
-*/
+ 
   onNewRecipe() {
     this.router.navigate(['new'], { relativeTo: this.route });
   }

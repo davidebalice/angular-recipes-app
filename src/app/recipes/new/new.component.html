@@ -34,12 +34,14 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="imagePath">Image URL</label>
+            <label for="image">Image URL</label>
             <input
-              type="text"
-              id="imagePath"
-              formControlName="imagePath"
+              type="file"
+              id="image"
+              formControlName="image"
               class="form-control"
+              accept="image/*"
+              (change)="onFileSelected($event)"
               #imagePath
             />
           </div>

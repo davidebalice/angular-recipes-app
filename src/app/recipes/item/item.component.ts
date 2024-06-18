@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, take } from 'rxjs';
+import { Subscription, catchError, take } from 'rxjs';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -11,7 +11,7 @@ import { RecipeService } from '../../services/recipe.service';
 })
 export class ItemComponent implements OnInit {
   @Input() recipe: Recipe;
-
+  private subscription: Subscription;
   constructor(private recipeService: RecipeService, private router: Router) {}
 
   ngOnInit(): void {}
@@ -21,7 +21,7 @@ export class ItemComponent implements OnInit {
   }
 
   private fetchRecipes() {
-    this.recipeService
+    this.subscription = this.recipeService
       .fetchRecipes()
       .pipe(
         take(1),
@@ -43,7 +43,7 @@ export class ItemComponent implements OnInit {
       'Are you sure you want to delete this recipe?'
     );
     if (confirmDelete) {
-      this.recipeService
+      this.subscription = this.recipeService
         .deleteRecipe(recipeId)
         .pipe(
           catchError((error) => {
@@ -56,6 +56,12 @@ export class ItemComponent implements OnInit {
             this.fetchRecipes();
           },
         });
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 }

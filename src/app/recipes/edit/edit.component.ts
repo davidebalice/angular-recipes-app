@@ -17,6 +17,7 @@ export class EditComponent implements OnInit {
   recipe: Recipe;
   recipe$: Observable<Recipe> | undefined;
   submitting = false;
+  
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -96,13 +97,13 @@ export class EditComponent implements OnInit {
 
   private initForm(recipe: Recipe) {
     let recipeTitle = '';
-    let recipeImagePath = '';
+    let recipeImageUrl = '';
     let recipeDescription = '';
     let recipeIngredients = new FormArray([]);
 
     if (this.editMode && recipe) {
       recipeTitle = recipe.title;
-      recipeImagePath = recipe.imagePath;
+      recipeImageUrl = recipe.imageUrl;
       recipeDescription = recipe.description;
       if (recipe.ingredients) {
         for (let ingredient of recipe.ingredients) {
@@ -121,7 +122,7 @@ export class EditComponent implements OnInit {
 
     this.recipeForm = new FormGroup({
       title: new FormControl(recipeTitle, Validators.required),
-      imagePath: new FormControl(recipeImagePath, Validators.required),
+      imagePath: new FormControl(recipeImageUrl, Validators.required),
       description: new FormControl(recipeDescription, Validators.required),
       ingredients: recipeIngredients,
     });

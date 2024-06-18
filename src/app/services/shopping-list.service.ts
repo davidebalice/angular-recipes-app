@@ -1,8 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Router } from '@angular/router';
-import { Observable, Subject, catchError, map, throwError } from 'rxjs';
-import { Ingredient } from '../model/ingredient.model';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  catchError,
+  map,
+  throwError,
+} from 'rxjs';
+import { Ingredient } from '../model/ingredient.model';
 
 @Injectable()
 export class ShoppingListService {
@@ -10,7 +17,7 @@ export class ShoppingListService {
   shoppingListChanged = new Subject<Ingredient[]>();
   startedEditing = new Subject<number>();
   shoppingList: Ingredient[];
-
+  private subscription: Subscription;
   constructor(private http: HttpClient, private router: Router) {}
 
   private getHeaders(): HttpHeaders {
@@ -70,14 +77,16 @@ export class ShoppingListService {
     const headers = this.getHeaders();
     const apiUrl = '/shoppinglist/add-ingredients';
 
-    this.http.post<Ingredient[]>(apiUrl, ingredients, { headers }).subscribe({
-      next: (responseData) => {
-//salva messaggio
-      },
-      error: (error) => {
-        console.error('Error adding ingredients:', error);
-      }
-    });
+    this.subscription = this.http
+      .post<Ingredient[]>(apiUrl, ingredients, { headers })
+      .subscribe({
+        next: (responseData) => {
+          //salva messaggio
+        },
+        error: (error) => {
+          console.error('Error adding ingredients:', error);
+        },
+      });
   }
 
   updateShoppingList(index: number, newShoppingList: Ingredient) {
@@ -88,5 +97,11 @@ export class ShoppingListService {
   deleteShoppingList(index: number) {
     this.shoppingList.splice(index, 1);
     this.shoppingListChanged.next(this.shoppingList.slice());
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

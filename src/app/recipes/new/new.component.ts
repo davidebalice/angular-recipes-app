@@ -7,8 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Subject, finalize, take, takeUntil } from 'rxjs';
 import { RecipeService } from '../../services/recipe.service';
-import { finalize, take } from 'rxjs';
 
 @Component({
   selector: 'app-new',
@@ -18,6 +18,8 @@ import { finalize, take } from 'rxjs';
 export class NewComponent implements OnInit {
   recipeForm: FormGroup;
   submitting = false;
+  imageFile: File | null = null;
+  private destroy$ = new Subject<void>();
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -33,23 +35,29 @@ export class NewComponent implements OnInit {
   ngOnInit(): void {
     this.recipeForm = this.formBuilder.group({
       title: ['', Validators.required],
-      imagePath: [''],
+      image: [''],
       description: [''],
       idCategory: 0,
       ingredients: this.formBuilder.array([]),
     });
   }
 
+  onFileSelected(event: any) {
+    this.imageFile = event.target.files[0];
+  }
+
   onSubmit() {
     if (this.recipeForm.valid && !this.submitting) {
       this.submitting = true;
-      this.recipeService.addRecipe(this.recipeForm.value)
+      this.recipeService
+        .addRecipe(this.recipeForm.value)
         .pipe(
           take(1),
           finalize(() => {
             this.submitting = false;
             this.onCancel();
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe({
           next: (response) => {
@@ -57,7 +65,7 @@ export class NewComponent implements OnInit {
           },
           error: (error) => {
             //console.error('Error adding recipe', error);
-          }
+          },
         });
     }
   }
@@ -80,5 +88,10 @@ export class NewComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
