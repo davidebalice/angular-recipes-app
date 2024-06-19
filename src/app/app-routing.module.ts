@@ -6,6 +6,7 @@ import { DetailComponent } from './recipes/detail/detail.component';
 import { EditComponent } from './recipes/edit/edit.component';
 import { NewComponent } from './recipes/new/new.component';
 import { RecipesComponent } from './recipes/recipes.component';
+import { PhotoComponent } from './recipes/photo/photo.component';
 import { ReloadComponent } from './reload/reload.component';
 import { AuthGuard } from './services/auth.guard';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
@@ -20,6 +21,7 @@ const appRoutes: Routes = [
   },
   { path: 'reload', component: ReloadComponent },
   { path: 'recipes/new', component: NewComponent },
+  { path: 'recipes/photo/:id', component: PhotoComponent },
   { path: 'recipes/:id', component: DetailComponent },
   {
     path: 'recipes/idcat/:idcat',

@@ -51,6 +51,64 @@ export class NewComponent implements OnInit {
       this.submitting = true;
       this.recipeService
         .addRecipe(this.recipeForm.value)
+        //.addRecipe(formData)
+        .pipe(
+          take(1),
+          finalize(() => {
+            this.submitting = false;
+            this.onCancel();
+          }),
+          takeUntil(this.destroy$)
+        )
+        .subscribe({
+          next: (response) => {
+            console.log('Recipe added successfully', response);
+          },
+          error: (error) => {
+            //console.error('Error adding recipe', error);
+          },
+        });
+    }
+  }
+
+  onSubmitWithPhoto() {
+    if (this.recipeForm.valid && !this.submitting) {
+      const formData = new FormData();
+      
+      formData.append('title', this.recipeForm.get('title')?.value);
+      formData.append('description', this.recipeForm.get('description')?.value);
+      formData.append('idCategory', this.recipeForm.get('idCategory')?.value);
+
+      if (this.imageFile) {
+        formData.append('image', this.imageFile, this.imageFile.name);
+      }
+
+      const ingredients = this.recipeForm.get('ingredients')?.value;
+      ingredients.forEach((ingredient: any, index: number) => {
+        formData.append(`ingredients[${index}][title]`, ingredient.title);
+        formData.append(`ingredients[${index}][quantity]`, ingredient.quantity);
+      });
+
+
+     /*
+      formData.append('recipeDto', JSON.stringify({
+        title: this.recipeForm.get('title')?.value,
+        description: this.recipeForm.get('description')?.value,
+        idCategory: this.recipeForm.get('idCategory')?.value,
+        ingredients: this.recipeForm.get('ingredients')?.value  // Aggiungi gli ingredienti direttamente
+      }));*/
+
+
+      /*
+      console.log('formData');
+      formData.forEach((value, key) => {
+        console.log(`${key}: ${value}`);
+      });
+      */
+     
+      this.submitting = true;
+      this.recipeService
+        .addRecipeWithPhoto(formData)
         .pipe(
           take(1),
           finalize(() => {

@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
-
+import { AppConfig } from '../../app-config';
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
@@ -13,6 +13,7 @@ export class DetailComponent implements OnInit {
   recipe: Recipe;
   recipe$: Observable<Recipe> | undefined;
   id: number | undefined;
+  
   private subscription: Subscription;
 
   constructor(
@@ -36,6 +37,10 @@ export class DetailComponent implements OnInit {
         this.recipeService.addIngredientsToShoppingList(recipe.ingredients);
       });
     }
+  }
+
+  getFullImageUrl(imageUrl: string): string {
+    return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
   }
 
   onEditRecipe() {

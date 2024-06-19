@@ -1,0 +1,49 @@
+<div class="row" *ngIf="recipe$ | async as recipe; else loading">
+  <div class="row">
+    <div class="col-xs-12">
+      <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+        <div class="row">
+          <div class="col-xs-12">
+            <button type="submit" class="btn btn-success">Save</button>
+            <button type="button" class="btn btn-danger" (click)="onCancel()">
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              {{ recipe.title }}
+            </div>
+          </div>
+        </div>
+        {{ file.name }}
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="image">Image URL</label>
+              <input
+                type="file"
+                id="image"
+                formControlName="image"
+                name="image"
+                class="form-control"
+                #image
+                accept="image/*"
+                (change)="uploadImage($event)"
+              />
+            </div>
+          </div>
+        </div>
+        <!--div class="row">
+          <div class="col-xs-12">
+            <img [src]="image.value" class="img-responsive" />
+          </div>
+        </div-->
+      </form>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>

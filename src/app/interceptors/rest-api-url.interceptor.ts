@@ -6,10 +6,11 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AppConfig } from '../app-config';
 
 @Injectable()
 export class RestApiUrlInterceptor implements HttpInterceptor {
-  private baseUrl = 'http://localhost:8081/api/v1';
+  private baseUrl = AppConfig.apiUrl;
 
   intercept(
     req: HttpRequest<any>,

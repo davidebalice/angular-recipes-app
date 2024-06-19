@@ -3,7 +3,7 @@
     <button class="btn btn-primary" (click)="onBackRecipes()">< Back</button>
     <div class="col-xs-12">
       <img
-        [src]="recipe.imagePath"
+      [src]="getFullImageUrl(recipe.imageUrl)"
         alt="{{ recipe.name }}"
         class="img-responsive"
       />

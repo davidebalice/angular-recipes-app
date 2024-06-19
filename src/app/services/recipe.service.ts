@@ -10,7 +10,6 @@ import { Observable, Subject, catchError, map, tap, throwError } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
 import { Recipe } from '../model/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
-import { Category } from '../model/category.model';
 
 @Injectable()
 export class RecipeService implements OnInit, OnDestroy {
@@ -27,7 +26,7 @@ export class RecipeService implements OnInit, OnDestroy {
     private http: HttpClient,
     private router: Router
   ) {}
-  
+
   ngOnDestroy(): void {
     throw new Error('Method not implemented.');
   }
@@ -41,6 +40,12 @@ export class RecipeService implements OnInit, OnDestroy {
   private getHeaders(): HttpHeaders {
     return new HttpHeaders({
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+    });
+  }
+
+  private getHeadersForm(): HttpHeaders {
+    return new HttpHeaders({
       'Cache-Control': 'no-cache',
     });
   }
@@ -69,16 +74,15 @@ export class RecipeService implements OnInit, OnDestroy {
     if (keyword) {
       apiUrl = '/recipes/search';
       params = params.append('keyword', keyword);
-    }
-    else{
-      if (category>0) {
+    } else {
+      if (category > 0) {
         apiUrl = '/recipes/searchByCategoryId';
         console.log('param category');
         console.log(category);
         params = params.append('categoryId', category);
       }
     }
-    
+
     return this.http
       .get<{ Recipe }>(apiUrl, {
         headers,
@@ -142,6 +146,7 @@ export class RecipeService implements OnInit, OnDestroy {
   }
 
   addRecipe(recipe: Recipe) {
+    //addRecipe(recipe: FormData) {
     const headers = this.getHeaders();
 
     return this.http
@@ -162,9 +167,25 @@ export class RecipeService implements OnInit, OnDestroy {
       );
   }
 
+  addRecipeWithPhoto(recipe: FormData) {
+    const headers = this.getHeadersForm();
+
+    return this.http.post(`/recipes/add-with-photo`, recipe, { headers }).pipe(
+      tap((response) => {
+        console.log('Response from backend:', response);
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.router.navigate(['/login']);
+        }
+        return throwError(() => new Error('Error adding product.'));
+      })
+    );
+  }
+
   updateRecipe(id: number, dataRecipe: Recipe) {
     const headers = this.getHeaders();
-console.log(dataRecipe);
+    console.log(dataRecipe);
     return this.http
       .patch(`/recipes/${id}`, dataRecipe, {
         withCredentials: true,
@@ -188,4 +209,29 @@ console.log(dataRecipe);
     const headers = this.getHeaders();
     return this.http.delete(`/recipes/${recipeId}`, { headers });
   }
+
+  uploadRecipe(id: number, imageFile: File) {
+    const formData = new FormData();
+    if (imageFile instanceof File) {
+      formData.append('image', imageFile, imageFile.name);
+
+      const url = `/recipes/${id}/uploadImage`;
+
+      const headers = new HttpHeaders();
+      headers.set('Cache-Control', 'no-cache');
+
+      return this.http.post(url, formData, { headers }).pipe(
+        tap((response) => {
+          console.log('Response from backend:', response);
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => new Error('Error uploading image.'));
+        })
+      );
+    }
+  }
+
 }

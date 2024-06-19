@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Subscription, catchError, take } from 'rxjs';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
+import { AppConfig } from '../../app-config';
 
 @Component({
   selector: 'app-item',
@@ -38,6 +39,10 @@ export class ItemComponent implements OnInit {
       });
   }
 
+  getFullImageUrl(imageUrl: string): string {
+    return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
+  }
+
   onDeleteRecipe(recipeId: number) {
     const confirmDelete = confirm(
       'Are you sure you want to delete this recipe?'
@@ -57,6 +62,10 @@ export class ItemComponent implements OnInit {
           },
         });
     }
+  }
+
+  onPhotoRecipe(recipeId: number) {
+    this.router.navigate(['/recipes/photo', recipeId]);
   }
 
   ngOnDestroy(): void {

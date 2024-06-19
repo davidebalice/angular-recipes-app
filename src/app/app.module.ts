@@ -11,6 +11,7 @@ import { RestApiUrlInterceptor } from './interceptors/rest-api-url.interceptor';
 import { LoginComponent } from './login/login.component';
 import { DetailComponent } from './recipes/detail/detail.component';
 import { EditComponent } from './recipes/edit/edit.component';
+import { PhotoComponent } from './recipes/photo/photo.component';
 import { ItemComponent } from './recipes/item/item.component';
 import { ListComponent } from './recipes/list/list.component';
 import { NewComponent } from './recipes/new/new.component';
@@ -31,6 +32,7 @@ import { CategoriesComponent } from './recipes/categories/categories.component';
     ListComponent,
     DetailComponent,
     ItemComponent,
+    PhotoComponent,
     ShoppingListComponent,
     ShoppingEditComponent,
     DropDownDirective,
