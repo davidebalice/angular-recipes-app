@@ -1,20 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { Category } from '../../model/category.model';
 import { Recipe } from '../../model/recipe.model';
 import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css'],
 })
-export class CategoriesComponent implements OnInit {
+export class CategoriesComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   selectedCategory: Category = null;
   recipes: Recipe[] = [];
   filteredRecipes: Recipe[] = [];
+  subscription: Subscription;
 
   constructor(
     private categoryService: CategoryService,
@@ -23,11 +25,18 @@ export class CategoriesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.categoryService.getCategories().subscribe((categories) => {
-      this.categories = categories;
-    });
+    this.categoryService.fetchCategories();
+    this.subscription = this.categoryService
+      .getCategories()
+      .subscribe((categories) => {
+        this.categories = categories;
+      });
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+  
   onSelectCategory(category: Category): void {
     this.selectedCategory = category;
     this.fetchRecipesByCategory(category);

@@ -1,5 +1,5 @@
-.imgContainer{
-    position:relative;
+.imgContainer {
+  position: relative;
 }
 
 .imgRecipe {
@@ -12,11 +12,15 @@
   transform: translate(-50%, -50%);
 }
 
-.cardRecipe{
-    
-    cursor:pointer
+.cardRecipe {
+  cursor: pointer;
 }
 
-.cardRecipe:hover{
-    background:#f1f1f1
+.cardRecipe:hover {
+  background: #f1f1f1;
+}
+
+.cardTitle {
+  font-family: "Caveat", sans-serif;
+  font-weight: bold;
 }

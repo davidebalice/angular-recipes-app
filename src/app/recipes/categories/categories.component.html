@@ -2,7 +2,7 @@
   <div class="col-md-3">
     <div class="list-group">
       <p
-        class="list-group-item list-group-item-action"
+        class="list-group-item list-group-item-action categoryItem"
         [ngClass]="{ active: selectedCategory === category }"
         *ngFor="let category of categories"
         (click)="onSelectCategory(category)"

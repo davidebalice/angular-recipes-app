@@ -18,7 +18,6 @@ export class CategoryService {
   private categoriesSubject = new BehaviorSubject<Category[]>([]);
   private subscription: Subscription;
   constructor(private http: HttpClient) {
-    this.fetchCategories();
   }
 
   private getHeaders(): HttpHeaders {

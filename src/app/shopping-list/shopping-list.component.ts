@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ShoppingListService } from '../services/shopping-list.service';
 import { Ingredient } from '../model/ingredient.model';
+import { ShoppingListService } from '../services/shopping-list.service';
 
 @Component({
   selector: 'app-shopping-list',
@@ -12,6 +12,8 @@ import { Ingredient } from '../model/ingredient.model';
 export class ShoppingListComponent implements OnInit, OnDestroy {
   shoppingList: Ingredient[] = [];
   private destroy$: Subject<void> = new Subject<void>();
+  new: boolean = false;
+  edit: boolean = false;
 
   constructor(private shoppingListService: ShoppingListService) {}
 
@@ -27,11 +29,11 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
         },
       });
 
-    this.shoppingListService.fetchShoppingList()
+    this.shoppingListService
+      .fetchShoppingList()
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (ingredients: Ingredient[]) => {
-        },
+        next: (ingredients: Ingredient[]) => {},
         error: (error) => {
           console.error('Error fetching shopping list:', error);
         },
@@ -43,7 +45,39 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  onEditItem(index: number) {
-    this.shoppingListService.startedEditing.next(index);
+  onShowAdd() {
+    this.edit = false;
+    this.new = true;
+  }
+
+  onEditItem(id: number) {
+    this.edit = true;
+    this.new = false;
+    this.shoppingListService.idSelected.next(id);
+  }
+
+  onDeleteItem(id: number) {
+    this.new = false;
+    this.edit = false;
+    if (confirm('Delete this item?')) {
+      this.shoppingListService.deleteItem(id).subscribe({
+        next: () => {
+          console.log('Item deleted successfully.');
+        },
+        error: (error) => {
+          console.error('Error deleting item:', error);
+        },
+      });
+    }
+  }
+
+  onCloseForm() {
+    this.new = false;
+    this.edit = false;
+  }
+
+  handleCloseForm() {
+    this.new = false;
+    this.edit = false;
   }
 }

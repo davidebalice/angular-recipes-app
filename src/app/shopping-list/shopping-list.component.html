@@ -1,17 +1,25 @@
 <div class="row">
   <div class="col-xs-10">
-    <app-shopping-edit></app-shopping-edit>
+    <div [style.display]="new || edit ? 'block' : 'none'">
+      <app-shopping-edit (closeForm)="handleCloseForm()"></app-shopping-edit>
+    </div>
+    <button (click)="onShowAdd()"><mat-icon>add</mat-icon></button>
+
+    <mat-icon>print</mat-icon>
     <hr />
     <ul class="list-group">
       <p>list</p>
-      <a
+      <div
         class="list-group-item"
-        style="cursor: pointer"
         *ngFor="let ingredient of shoppingList; let i = index"
-        (click)="onEditItem(i)"
       >
-        {{ ingredient.title }} ({{ ingredient.quantity }})
-      </a>
+        <a style="cursor: pointer">
+          {{ ingredient.title }} ({{ ingredient.quantity }})
+        </a>
+
+        <mat-icon (click)="onEditItem(ingredient.id)">edit</mat-icon>
+        <mat-icon (click)="onDeleteItem(ingredient.id)">delete</mat-icon>
+      </div>
     </ul>
   </div>
 </div>

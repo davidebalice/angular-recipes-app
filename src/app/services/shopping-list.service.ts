@@ -1,4 +1,8 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import {
@@ -7,6 +11,7 @@ import {
   Subscription,
   catchError,
   map,
+  tap,
   throwError,
 } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
@@ -15,7 +20,7 @@ import { Ingredient } from '../model/ingredient.model';
 export class ShoppingListService {
   shoppingListArray = new Subject<Ingredient[]>();
   shoppingListChanged = new Subject<Ingredient[]>();
-  startedEditing = new Subject<number>();
+  idSelected = new Subject<number>();
   shoppingList: Ingredient[];
   private subscription: Subscription;
   constructor(private http: HttpClient, private router: Router) {}
@@ -37,7 +42,6 @@ export class ShoppingListService {
       })
       .pipe(
         map((responseData) => {
-          console.log(responseData);
           const slArray: Ingredient[] = [];
           for (const key in responseData) {
             if (responseData.hasOwnProperty(key)) {
@@ -65,8 +69,8 @@ export class ShoppingListService {
     return this.shoppingList;
   }
 
-  getIngredient(index: number) {
-    return this.shoppingList[index];
+  getIngredient(id: number) {
+    return this.shoppingList.find((ingredient) => ingredient.id === id);
   }
 
   addIngredient(ingredient: Ingredient) {
@@ -103,5 +107,86 @@ export class ShoppingListService {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  updateItem(id: number, data: Ingredient) {
+    const headers = this.getHeaders();
+    return this.http
+      .patch(`/shoppinglist/${id}`, data, {
+        withCredentials: true,
+        responseType: 'text',
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          console.log('Response from backend:', response);
+          this.fetchShoppingList().subscribe({
+            next: (updatedList) => {
+              console.log('Shopping list updated after patch:', updatedList);
+            },
+            error: (error) => {
+              console.error('Error fetching shopping list after patch:', error);
+            },
+          });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => new Error('Error adding product.'));
+        })
+      );
+  }
+
+  addItem(data: Ingredient) {
+    const headers = this.getHeaders();
+    return this.http
+      .post(`/shoppinglist/add`, data, {
+        withCredentials: true,
+        responseType: 'text',
+        headers,
+      })
+      .pipe(
+        tap((response) => {
+          console.log('Response from backend:', response);
+          this.fetchShoppingList().subscribe({
+            next: (updatedList) => {
+              console.log('Shopping list updated after patch:', updatedList);
+            },
+            error: (error) => {
+              console.error('Error fetching shopping list after patch:', error);
+            },
+          });
+        }),
+        catchError((error: HttpErrorResponse) => {
+          if (error.status === 401) {
+            this.router.navigate(['/login']);
+          }
+          return throwError(() => new Error('Error adding product.'));
+        })
+      );
+  }
+
+  deleteItem(id: number) {
+    const headers = this.getHeaders();
+    return this.http.delete(`/shoppinglist/${id}`, { headers }).pipe(
+      tap((response) => {
+        console.log('Response from backend:', response);
+        this.fetchShoppingList().subscribe({
+          next: (updatedList) => {
+            console.log('Shopping list updated after delete:', updatedList);
+          },
+          error: (error) => {
+            console.error('Error fetching shopping list after delete:', error);
+          },
+        });
+      }),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.router.navigate(['/login']);
+        }
+        return throwError(() => new Error('Error adding product.'));
+      })
+    );
   }
 }

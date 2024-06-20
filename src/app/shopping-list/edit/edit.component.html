@@ -7,19 +7,19 @@
           <label for="name">Name</label>
           <input
             type="text"
-            id="name"
-            name="name"
+            id="title"
+            name="title"
             class="form-control"
             ngModel
             required
           />
         </div>
         <div class="col-sm-2 form-group">
-          <label for="amount">Amount</label>
+          <label for="amount">Quantity</label>
           <input
             type="number"
-            id="amount"
-            name="amount"
+            id="quantity"
+            name="quantity"
             class="form-control"
             ngModel
             required
@@ -27,19 +27,19 @@
           />
         </div>
       </div>
+
+
+      <input type="hidden" id="id" name="id"  ngModel  />
+
+
       <div class="row">
         <div class="col-xs-12 buttonContainer">
           <button class="btn btn-success" type="submit" [disabled]="!f.valid">
             {{ editMode ? "Update" : "Add" }}
           </button>
-          <button
-            class="btn btn-danger"
-            type="button"
-            (click)="onDeleteItem(f)"
-            *ngIf="editMode"
-          >
-            Delete
-          </button>
+
+
+  
           <button
             class="btn btn-primary"
             type="button"
