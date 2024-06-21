@@ -37,4 +37,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
       this.authSubscription.unsubscribe();
     }
   }
+
+  onNewRecipe() {
+    this.router.navigate(['/recipes/new']);
+  }
 }

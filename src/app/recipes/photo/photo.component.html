@@ -17,7 +17,7 @@
             </div>
           </div>
         </div>
-        {{ file.name }}
+        {{ recipe.imageUrl }}
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
@@ -35,11 +35,11 @@
             </div>
           </div>
         </div>
-        <!--div class="row">
+        <div class="row">
           <div class="col-xs-12">
-            <img [src]="image.value" class="img-responsive" />
+            <img [src]="getFullImageUrl(imageUrl)" class="img-responsive" />
           </div>
-        </div-->
+        </div>
       </form>
     </div>
   </div>

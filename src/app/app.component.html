@@ -1,6 +1,6 @@
-<app-header (featureSelected)="onNavigate($event)"></app-header>
+<app-header *ngIf="showHeader" (featureSelected)="onNavigate($event)"></app-header>
 <router-outlet />
-<div class="container">
+<div class="container-fluid containerExt" >
   <div class="row">
     <div class="col-md-12">
       <router-outlet></router-outlet>

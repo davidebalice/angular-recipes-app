@@ -1,0 +1,28 @@
+.categoryContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  margin-top:10px;
+  padding:12px !important;
+  padding-top:0px !important;
+}
+.categoryItem {
+  width: 20%;
+  transition: opacity 0.3s ease;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-weight: bold;
+  cursor: pointer;
+  padding:10px
+}
+
+.categoryItem:hover {
+  opacity: 0.7;
+}
+
+.categoryItem span {
+    font-size: 22px;
+  }

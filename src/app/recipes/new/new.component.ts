@@ -7,7 +7,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subject, finalize, take, takeUntil } from 'rxjs';
+import { Observable, Subject, finalize, take, takeUntil } from 'rxjs';
+import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({
@@ -20,6 +21,7 @@ export class NewComponent implements OnInit {
   submitting = false;
   imageFile: File | null = null;
   private destroy$ = new Subject<void>();
+  categories$: Observable<any[]>;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -28,15 +30,20 @@ export class NewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
+    private categoryService: CategoryService,
     private router: Router,
     private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
     this.recipeForm = this.formBuilder.group({
       title: ['', Validators.required],
       image: [''],
       description: [''],
+      preparationTime: [''],
+      cookingTime: [''],
+      tips: [''],
       idCategory: 0,
       ingredients: this.formBuilder.array([]),
     });
@@ -48,6 +55,7 @@ export class NewComponent implements OnInit {
 
   onSubmit() {
     if (this.recipeForm.valid && !this.submitting) {
+      console.log(this.recipeForm.value);
       this.submitting = true;
       this.recipeService
         .addRecipe(this.recipeForm.value)
@@ -74,10 +82,13 @@ export class NewComponent implements OnInit {
   onSubmitWithPhoto() {
     if (this.recipeForm.valid && !this.submitting) {
       const formData = new FormData();
-      
+
       formData.append('title', this.recipeForm.get('title')?.value);
       formData.append('description', this.recipeForm.get('description')?.value);
       formData.append('idCategory', this.recipeForm.get('idCategory')?.value);
+      formData.append('preparationTime', this.recipeForm.get('preparationTime')?.value);
+      formData.append('cookingTime', this.recipeForm.get('cookingTime')?.value);
+      formData.append('tips', this.recipeForm.get('tips')?.value);
 
       if (this.imageFile) {
         formData.append('image', this.imageFile, this.imageFile.name);
@@ -89,23 +100,6 @@ export class NewComponent implements OnInit {
         formData.append(`ingredients[${index}][quantity]`, ingredient.quantity);
       });
 
-
-     /*
-      formData.append('recipeDto', JSON.stringify({
-        title: this.recipeForm.get('title')?.value,
-        description: this.recipeForm.get('description')?.value,
-        idCategory: this.recipeForm.get('idCategory')?.value,
-        ingredients: this.recipeForm.get('ingredients')?.value  // Aggiungi gli ingredienti direttamente
-      }));*/
-
-
-      /*
-      console.log('formData');
-      formData.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-      });
-      */
-     
       this.submitting = true;
       this.recipeService
         .addRecipeWithPhoto(formData)
@@ -146,6 +140,11 @@ export class NewComponent implements OnInit {
 
   onCancel() {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  loadCategories(): void {
+    this.categoryService.fetchCategories();
+    this.categories$ = this.categoryService.getCategories();
   }
 
   ngOnDestroy() {

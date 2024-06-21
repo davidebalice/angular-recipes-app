@@ -25,6 +25,7 @@ import { RecipeService } from './services/recipe.service';
 import { ShoppingListService } from './services/shopping-list.service';
 import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { HeroComponent } from './hero/hero.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { ShoppingListComponent } from './shopping-list/shopping-list.component';
     LoginComponent,
     ReloadComponent,
     CategoriesComponent,
+    HeroComponent,
   ],
   imports: [
     BrowserModule,

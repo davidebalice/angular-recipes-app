@@ -1,0 +1,17 @@
+.headerContainer {
+  background: #57bfc6;
+}
+
+.logo{
+    width:60px
+}
+
+.logoText{
+    font-weight: bold;
+    font-size:27px;
+    color:#fff;
+    text-decoration: none;
+    text-align: center;
+    line-height: 28px;
+    margin-top:4px
+}

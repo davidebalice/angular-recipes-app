@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light headerContainer">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Recipe Book</a>
+    <a class="navbar-brand" href="#"><img src="../../assets/images/logoWhite.png" class="logo"></a>
+    <a class="navbar-brand" href="#" ><p class="logoText">Recipe<br />Book</p></a>
+    <a class="navbar-brand" href="#"><img src="../../assets/images/logoDb.png" class="logo"></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -30,6 +32,19 @@
         </li>
         
       </ul>
+
+      <div class="row">
+        <div class="col-xs-12">
+          <button class="btn btn-success" (click)="onNewRecipe()">
+            <mat-icon> add_circle </mat-icon>
+            <p>New Recipe</p>
+          </button>
+        </div>
+      </div>
+      
+
+
+
       <div *ngIf="isLoggedIn">
         <button (click)="onLogout()">logout</button>
       </div>

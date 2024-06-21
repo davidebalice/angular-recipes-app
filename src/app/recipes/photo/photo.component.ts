@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, finalize, map, take } from 'rxjs';
+import { AppConfig } from '../../app-config';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -18,6 +19,7 @@ export class PhotoComponent implements OnInit {
   recipe$: Observable<Recipe> | undefined;
   submitting = false;
   file: any;
+  imageUrl: string;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -44,6 +46,7 @@ export class PhotoComponent implements OnInit {
               map((recipe) => {
                 this.recipe = recipe;
                 this.initForm(this.recipe);
+                this.imageUrl = recipe.imageUrl;
               })
             )
             .subscribe();
@@ -58,7 +61,6 @@ export class PhotoComponent implements OnInit {
 
   onSubmit() {
     if (!this.submitting) {
-      
       this.submitting = true;
       this.recipeService
         .uploadRecipe(this.id, this.file)
@@ -66,7 +68,8 @@ export class PhotoComponent implements OnInit {
           take(1),
           finalize(() => {
             this.submitting = false;
-            this.router.navigate(['../../'], { relativeTo: this.route });
+            //this.router.navigate(['../../'], { relativeTo: this.route });
+            this.imageUrl = this.id + '_' + this.file.name;
           })
         )
         .subscribe({
@@ -78,6 +81,10 @@ export class PhotoComponent implements OnInit {
           },
         });
     }
+  }
+
+  getFullImageUrl(imageUrl: string): string {
+    return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
   }
 
   onCancel() {
