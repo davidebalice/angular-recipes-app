@@ -7,6 +7,7 @@ export class Recipe {
   public imageUrl: string;
   public preparationTime: string;
   public cookingTime: string;
+  public difficulty: number;
   public tips: string;
   public idCategory: number;
   public ingredients: Ingredient[];
@@ -19,6 +20,7 @@ export class Recipe {
     cookingTime: string,
     tips: string,
     idCategory: number,
+    difficulty: number,
     imageUrl: string,
     ingredients: Ingredient[]
   ) {
@@ -28,6 +30,7 @@ export class Recipe {
     this.preparationTime = preparationTime;
     this.cookingTime = cookingTime;
     this.tips = tips;
+    this.difficulty = difficulty;
     this.imageUrl = imageUrl;
     this.idCategory = idCategory;
     this.ingredients = ingredients;

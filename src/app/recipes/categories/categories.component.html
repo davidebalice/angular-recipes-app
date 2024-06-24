@@ -8,6 +8,10 @@
       color: '#' + category.color
     }"
   >
+    <img
+      [src]="'../../../assets/images/' + category.name.trim() + '.png'"
+      style="width: 60px"
+    />
     <span [ngClass]="{ active: selectedCategory === category }">
       {{ category.name }}
     </span>

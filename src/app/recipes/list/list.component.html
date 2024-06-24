@@ -1,15 +1,4 @@
 <div class="row">
-  <div class="col-xs-12">
-    <button class="btn btn-success" (click)="onNewRecipe()">
-      <mat-icon> add_circle </mat-icon>
-      <p>New Recipe</p>
-    </button>
-  </div>
-</div>
-
-<hr />
-
-<div class="row">
   <div class="col-12">
     <ng-container *ngIf="loadedRecipes.length > 0; else noRecipes">
       <div class="row">

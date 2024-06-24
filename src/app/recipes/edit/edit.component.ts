@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable, finalize, map, take } from 'rxjs';
+import { Observable, Subject, finalize, map, take } from 'rxjs';
 import { Recipe } from '../../model/recipe.model';
+import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({
@@ -12,12 +19,12 @@ import { RecipeService } from '../../services/recipe.service';
 })
 export class EditComponent implements OnInit {
   id: number | undefined;
-  editMode = false;
   recipeForm: FormGroup;
   recipe: Recipe;
   recipe$: Observable<Recipe> | undefined;
   submitting = false;
-  
+  private destroy$ = new Subject<void>();
+  categories$: Observable<any[]>;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -26,28 +33,28 @@ export class EditComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private recipeService: RecipeService,
-    private router: Router
+    private categoryService: CategoryService,
+    private router: Router,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.loadCategories();
     this.route.params.subscribe((params: Params) => {
-      this.editMode = params['id'] != null;
       this.id = +params['id'];
 
-      if (this.editMode) {
-        if (this.id !== undefined) {
-          this.recipe$ = this.recipeService.getById(this.id);
+      if (this.id !== undefined) {
+        this.recipe$ = this.recipeService.getById(this.id);
 
-          this.recipeService
-            .getById(this.id)
-            .pipe(
-              map((recipe) => {
-                this.recipe = recipe;
-                this.initForm(this.recipe);
-              })
-            )
-            .subscribe();
-        }
+        this.recipeService
+          .getById(this.id)
+          .pipe(
+            map((recipe) => {
+              this.recipe = recipe;
+              this.initForm(this.recipe);
+            })
+          )
+          .subscribe();
       }
     });
   }
@@ -96,35 +103,48 @@ export class EditComponent implements OnInit {
   }
 
   private initForm(recipe: Recipe) {
-    let recipeTitle = '';
-    let recipeImageUrl = '';
-    let recipeDescription = '';
+    let recipeTitle = recipe.title;
+    let recipeIdCategory = recipe.idCategory;
+    let recipeDifficulty = recipe.difficulty;
+    let recipePreparationTime = recipe.preparationTime;
+    let recipeCookingTime = recipe.cookingTime;
+    let recipeDescription = recipe.description;
+    let recipeTips = recipe.tips;
     let recipeIngredients = new FormArray([]);
 
-    if (this.editMode && recipe) {
-      recipeTitle = recipe.title;
-      recipeImageUrl = recipe.imageUrl;
-      recipeDescription = recipe.description;
-      if (recipe.ingredients) {
-        for (let ingredient of recipe.ingredients) {
-          recipeIngredients.push(
-            new FormGroup({
-              title: new FormControl(ingredient.title, Validators.required),
-              quantity: new FormControl(ingredient.quantity, [
-                Validators.required,
-                Validators.pattern(/^[1-9]+[0-9]*$/),
-              ]),
-            })
-          );
-        }
+    if (recipe.ingredients) {
+      for (let ingredient of recipe.ingredients) {
+        recipeIngredients.push(
+          new FormGroup({
+            title: new FormControl(ingredient.title, Validators.required),
+            quantity: new FormControl(ingredient.quantity, [
+              Validators.required,
+              Validators.pattern(/^[1-9]+[0-9]*$/),
+            ]),
+          })
+        );
       }
     }
 
     this.recipeForm = new FormGroup({
       title: new FormControl(recipeTitle, Validators.required),
-      imagePath: new FormControl(recipeImageUrl, Validators.required),
+      idCategory: new FormControl(recipeIdCategory, Validators.required),
       description: new FormControl(recipeDescription, Validators.required),
+      tips: new FormControl(recipeTips),
+      difficulty: new FormControl(recipeDifficulty, Validators.required),
+      preparationTime: new FormControl(recipePreparationTime),
+      cookingTime: new FormControl(recipeCookingTime),
       ingredients: recipeIngredients,
     });
+  }
+
+  loadCategories(): void {
+    this.categoryService.fetchCategories();
+    this.categories$ = this.categoryService.getCategories();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

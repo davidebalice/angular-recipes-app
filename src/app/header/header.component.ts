@@ -11,6 +11,7 @@ import { AuthService } from '../services/auth.service';
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
   private authSubscription: Subscription;
+  isCategoriesVisible = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -40,5 +41,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   onNewRecipe() {
     this.router.navigate(['/recipes/new']);
+  }
+
+  showCategories() {
+    this.isCategoriesVisible = true;
+  }
+
+  hideCategories() {
+    this.isCategoriesVisible = false;
   }
 }

@@ -44,6 +44,7 @@ export class NewComponent implements OnInit {
       preparationTime: [''],
       cookingTime: [''],
       tips: [''],
+      difficulty: [''],
       idCategory: 0,
       ingredients: this.formBuilder.array([]),
     });
@@ -59,7 +60,6 @@ export class NewComponent implements OnInit {
       this.submitting = true;
       this.recipeService
         .addRecipe(this.recipeForm.value)
-        //.addRecipe(formData)
         .pipe(
           take(1),
           finalize(() => {
@@ -89,6 +89,7 @@ export class NewComponent implements OnInit {
       formData.append('preparationTime', this.recipeForm.get('preparationTime')?.value);
       formData.append('cookingTime', this.recipeForm.get('cookingTime')?.value);
       formData.append('tips', this.recipeForm.get('tips')?.value);
+      formData.append('difficulty', this.recipeForm.get('difficulty')?.value);
 
       if (this.imageFile) {
         formData.append('image', this.imageFile, this.imageFile.name);

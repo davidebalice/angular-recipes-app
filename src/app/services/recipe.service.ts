@@ -146,7 +146,6 @@ export class RecipeService implements OnInit, OnDestroy {
   }
 
   addRecipe(recipe: Recipe) {
-    //addRecipe(recipe: FormData) {
     const headers = this.getHeaders();
 
     return this.http

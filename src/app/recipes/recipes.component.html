@@ -1,7 +1,15 @@
 <div class="containerExt">
   <div class="container">
-    <app-hero></app-hero>
-    <app-categories></app-categories>
+    <div class="row">
+      <div class="col-xs-12">
+        <button class="btn btn-success" (click)="onNewRecipe()">
+          <mat-icon> add_circle </mat-icon>
+          <p>New Recipe</p>
+        </button>
+      </div>
+    </div>
+    
+    <hr />
     <app-list></app-list>
   </div>
 </div>

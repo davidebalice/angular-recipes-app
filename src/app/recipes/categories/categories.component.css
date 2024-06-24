@@ -1,28 +1,35 @@
 .categoryContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: nowrap;
-  margin-top:10px;
-  padding:12px !important;
-  padding-top:0px !important;
+  margin-top: 36px;
+  margin-left: -40px;
+  padding: 0px !important;
+  padding-top: 0px !important;
+  width:250px;
+  position: absolute;
+  z-index: 10;
+ 
 }
 .categoryItem {
-  width: 20%;
-  transition: opacity 0.3s ease;
+  width: 100%;
+  transition: filter 0.3s ease;
   opacity: 1;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
   font-weight: bold;
   cursor: pointer;
-  padding:10px
+  padding: 10px;
+  padding-left:22px;
+  gap: 10px;
 }
 
 .categoryItem:hover {
-  opacity: 0.7;
+  filter: brightness(1.1);
 }
 
 .categoryItem span {
-    font-size: 22px;
-  }
+  font-size: 22px;
+}

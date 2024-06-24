@@ -26,6 +26,7 @@ import { ShoppingListService } from './services/shopping-list.service';
 import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { HeroComponent } from './hero/hero.component';
+import { HomeComponent } from './home/home.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,6 +45,7 @@ import { HeroComponent } from './hero/hero.component';
     ReloadComponent,
     CategoriesComponent,
     HeroComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

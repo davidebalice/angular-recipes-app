@@ -1,5 +1,5 @@
-<div class="row" *ngIf="recipe$ | async as recipe; else loading">
-  <div class="row">
+<div class="container" style="border: 2px solid red">
+  <div class="row" *ngIf="recipe$ | async as recipe; else loading">
     <div class="col-xs-12">
       <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
         <div class="row">
@@ -29,25 +29,79 @@
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
-              <label for="imagePath">Image URL</label>
+              <label for="idCategory">Category</label>
+              <select
+                type="text"
+                id="idCategory"
+                formControlName="idCategory"
+                class="form-control"
+              >
+                <option
+                  *ngFor="let category of categories$ | async"
+                  [value]="category.id"
+                >
+                  {{ category.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="difficulty">Difficulty</label>
+              <select
+                id="difficulty"
+                formControlName="difficulty"
+                class="form-control"
+              >
+                <option value="1">1</option>
+                <option value="1.5">1.5</option>
+                <option value="2">2</option>
+                <option value="2.5">2.5</option>
+                <option value="3">3</option>
+                <option value="3.5">3.5</option>
+                <option value="4">4</option>
+                <option value="4.5">4.5</option>
+                <option value="5">5</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="preparationTime">Preparation time</label>
               <input
                 type="text"
-                id="imagePath"
-                formControlName="imagePath"
+                id="preparationTime"
+                formControlName="preparationTime"
                 class="form-control"
-                #imagePath
               />
             </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-xs-12">
-            <img [src]="imagePath.value" class="img-responsive" />
+            <div class="form-group">
+              <label for="cookingTime">Cooking time</label>
+              <input
+                type="text"
+                id="cookingTime"
+                formControlName="cookingTime"
+                class="form-control"
+              />
+            </div>
           </div>
         </div>
+
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
@@ -62,6 +116,22 @@
             </div>
           </div>
         </div>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <div class="form-group">
+              <label for="tips">Tips</label>
+              <textarea
+                type="text"
+                id="tips"
+                class="form-control"
+                formControlName="tips"
+                rows="4"
+              ></textarea>
+            </div>
+          </div>
+        </div>
+
         <div class="row">
           <div class="col-xs-12" formArrayName="ingredients">
             <div

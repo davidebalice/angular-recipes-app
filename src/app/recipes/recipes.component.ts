@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Recipe } from '../model/recipe.model';
 import { RecipeService } from '../services/recipe.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -10,7 +11,8 @@ import { RecipeService } from '../services/recipe.service';
 export class RecipesComponent implements OnInit {
   selectedRecipe: Recipe;
 
-  constructor(private recipeService: RecipeService) {}
+  constructor(private recipeService: RecipeService,    private router: Router,
+  ) {}
 
   ngOnInit() {
     /*
@@ -21,5 +23,9 @@ export class RecipesComponent implements OnInit {
 
   onBackRecipes() {
     // this.selectedRecipe = null;
+  }
+
+  onNewRecipe() {
+    this.router.navigate(['/recipes/new']);
   }
 }
