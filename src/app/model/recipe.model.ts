@@ -1,3 +1,4 @@
+import { CategoryDto } from './category.model';
 import { Ingredient } from './ingredient.model';
 
 export class Recipe {
@@ -9,6 +10,7 @@ export class Recipe {
   public cookingTime: string;
   public difficulty: number;
   public tips: string;
+  public categoryDto: CategoryDto;
   public idCategory: number;
   public ingredients: Ingredient[];
 

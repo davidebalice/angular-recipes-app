@@ -66,7 +66,7 @@ export class RecipeService implements OnInit, OnDestroy {
     );
   }
 
-  fetchRecipes(keyword?: string, category?: number): Observable<Recipe[]> {
+  fetchRecipes(keyword?: string, category?: number, limit?: number): Observable<Recipe[]> {
     const headers = this.getHeaders();
     let apiUrl = '/recipes/';
     let params = new HttpParams();
@@ -81,6 +81,10 @@ export class RecipeService implements OnInit, OnDestroy {
         console.log(category);
         params = params.append('categoryId', category);
       }
+    }
+
+    if(limit){
+      params = params.append('size', limit);
     }
 
     return this.http

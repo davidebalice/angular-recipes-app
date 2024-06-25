@@ -1,8 +1,15 @@
-<div class="card mb-3 cardRecipe">
+<div class="card cardRecipe">
   <div class="row g-0">
-    <div class="col-md-4 imgContainer">
+    <div
+      class="categoryContainer"
+      [ngStyle]="{ 'background-color': '#' + recipe.categoryDto.bg }"
+    >
+      {{ recipe.categoryDto.name }}
+    </div>
+
+    <div class="imgContainer">
       <img
-        [src]="getFullImageUrl(recipe.imageUrl)" 
+        [src]="getFullImageUrl(recipe.imageUrl)"
         alt="{{ recipe.title }}"
         class="imgRecipe"
       />
@@ -12,9 +19,7 @@
         <h5 class="cardTitle">{{ recipe.title }}</h5>
         <p class="card-text">{{ recipe.description }}</p>
         <p class="card-text">
-          <button class="btn btn-success" (click)="onSelected()">
-            Detail
-          </button>
+          <button class="btn btn-success" (click)="onSelected()">Detail</button>
           <button class="btn btn-success" (click)="onPhotoRecipe(recipe.id)">
             Photo
           </button>

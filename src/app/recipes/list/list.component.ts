@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
@@ -17,6 +17,7 @@ export class ListComponent implements OnInit, OnDestroy {
   private errorSub: Subscription;
   private queryParamSub: Subscription;
   private routeParamsSub: Subscription;
+  @Input() limit: number;
 
   constructor(
     private recipeService: RecipeService,
@@ -70,18 +71,22 @@ export class ListComponent implements OnInit, OnDestroy {
 
   fetchRecipes(searchKey?: string, categoryId?: number) {
     this.isLoading = true;
-    this.subscription = this.recipeService.fetchRecipes(searchKey, categoryId).subscribe({
-      next: (recipes) => {
-        this.isLoading = false;
-        this.loadedRecipes = recipes;
-      },
-      error: (error) => {
-        this.isLoading = false;
-        this.error = error.message;
-        console.log(error);
-      },
-    });
+    this.subscription = this.recipeService
+      .fetchRecipes(searchKey, categoryId, this.limit)
+      .subscribe({
+        next: (recipes) => {
+          this.isLoading = false;
+
+          this.loadedRecipes = recipes.map((recipe) => ({
+            ...recipe,
+            categoryName: recipe.categoryDto?.name || 'Unknown Category',
+          }));
+        },
+        error: (error) => {
+          this.isLoading = false;
+          this.error = error.message;
+          console.log(error);
+        },
+      });
   }
- 
-  
 }

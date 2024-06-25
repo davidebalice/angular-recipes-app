@@ -40,9 +40,11 @@ export class ItemComponent implements OnInit {
   }
 
   getFullImageUrl(imageUrl: string): string {
+    if (!imageUrl || imageUrl.trim() === '') {
+      return '../../../assets/images/nophoto.jpg';
+    }
     return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
   }
-
   onDeleteRecipe(recipeId: number) {
     const confirmDelete = confirm(
       'Are you sure you want to delete this recipe?'

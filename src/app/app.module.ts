@@ -27,6 +27,7 @@ import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { HeroComponent } from './hero/hero.component';
 import { HomeComponent } from './home/home.component';
+import { FooterComponent } from './footer/footer.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,6 +47,7 @@ import { HomeComponent } from './home/home.component';
     CategoriesComponent,
     HeroComponent,
     HomeComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
