@@ -17,7 +17,7 @@ export class AuthService {
     return this.http.post<any>(this.authUrl, { username, password }).pipe(
       tap((response) => {
         this.setToken(response);
-        this.isLoggedInSubject.next(true); 
+        this.isLoggedInSubject.next(true);
       })
     );
   }

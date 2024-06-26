@@ -12,6 +12,8 @@ import { AppConfig } from '../../app-config';
 })
 export class ItemComponent implements OnInit {
   @Input() recipe: Recipe;
+  fullStars: number = 0;
+  halfStar: boolean = false;
   private subscription: Subscription;
   constructor(private recipeService: RecipeService, private router: Router) {}
 
@@ -74,5 +76,22 @@ export class ItemComponent implements OnInit {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  generateStarsArray(difficulty: number): string[] {
+    const maxStars = 5;
+    let starsArray: string[] = [];
+    
+    for (let i = 1; i <= maxStars; i++) {
+      if (i <= difficulty) {
+        starsArray.push('star');
+      } else if (i - 0.5 <= difficulty) {
+        starsArray.push('star_half');
+      } else {
+        starsArray.push('star_border');
+      }
+    }
+
+    return starsArray;
   }
 }

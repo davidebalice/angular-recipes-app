@@ -10,13 +10,24 @@
 }
 
 .loginBox {
-  width: 300px;
+  width: 340px;
   margin: 0 auto;
-  padding: 1em;
   background: rgba(255, 255, 255, 0.9);
-  box-shadow: 10 10 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  border:1px solid #ddd;
+  box-shadow: 10 10 10px rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+
+}
+
+@media (max-width: 767px) {
+  .loginBox {
+    width: 90%;
+  }
+}
+
+.loginBody{
+  padding:1rem;
 }
 
 form div {
@@ -25,10 +36,13 @@ form div {
 
 label {
   display: block;
+  font-size: 19px;
+  margin-bottom: 6px;
 }
 
 input {
   width: 100%;
+  font-size: 19px;
   padding: 0.5em;
   box-sizing: border-box;
 }
@@ -44,4 +58,55 @@ button {
 
 button:disabled {
   background-color: #cccccc;
+}
+
+.loginButton {
+  font-size: 19px;
+  font-weight: bold;
+}
+
+.loginLogo {
+  width: 45%;
+  margin: 0 auto;
+}
+
+.loginLogoContainer {
+  width: 100%;
+  text-align: center;
+  padding:1rem;
+  border-bottom: 1px solid #aaa;
+  background-color: #fff;
+}
+
+.loginText {
+  font-size: 21px;
+  text-align: center;
+  line-height: 32px;
+}
+
+.loginText b {
+  font-size: 28px;
+}
+
+.loginDemoData {
+  border: 1px dashed;
+  text-align: left;
+  font-size: 20px;
+  line-height: 26px;
+  padding: 11px;
+  margin-top: 20px;
+  background-color: ;
+}
+
+.loginFooter {
+  text-align: center;
+  font-size: 21px;
+  font-weight: bold;
+  border-top: 1px solid #aaa;
+  background-color: #fff;
+  padding:0.6rem;
+}
+
+.loginFooter a {
+  text-decoration: none;
 }

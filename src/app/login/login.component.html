@@ -1,40 +1,62 @@
 <div class="loginContainer">
   <div class="loginBox">
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
-      <div>
-        Recipes book developed in Angular - Spring Boot
-        <br />
-        www.davidebalice.dev
-      </div>
-      <div>
-        <label for="username">Username:</label>
-        <input
-          type="text"
-          id="username"
-          required
-          [(ngModel)]="username"
-          name="username"
-          #usernameInput="ngModel"
-        />
-        <div *ngIf="usernameInput.invalid && usernameInput.touched">
-          Username is required
+    <div class="loginLogoContainer">
+      <img src="../../assets/images/logoDb.png" class="loginLogo" />
+    </div>
+    <div class="loginBody">
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <div class="loginText">
+          <b>Recipes book</b> <br />
+          developed in Angular - Spring Boot
         </div>
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input
-          type="password"
-          id="password"
-          required
-          [(ngModel)]="password"
-          name="password"
-          #passwordInput="ngModel"
-        />
-        <div *ngIf="passwordInput.invalid && passwordInput.touched">
-          Password is required
+        <div>
+          <label for="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            required
+            [(ngModel)]="username"
+            name="username"
+            #usernameInput="ngModel"
+          />
+          <div *ngIf="usernameInput.invalid && usernameInput.touched">
+            Username is required
+          </div>
         </div>
-      </div>
-      <button type="submit" [disabled]="loginForm.invalid">Login</button>
-    </form>
+        <div>
+          <label for="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            required
+            [(ngModel)]="password"
+            name="password"
+            #passwordInput="ngModel"
+          />
+          <div *ngIf="passwordInput.invalid && passwordInput.touched">
+            Password is required
+          </div>
+        </div>
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid"
+          class="loginButton"
+        >
+          Login
+        </button>
+        <div class="loginDemoData">
+          <b>demo data</b>:
+          <br />
+          {{ username }}
+          <br />
+          {{ password }}
+        </div>
+      </form>
+    </div>
+    <div class="loginFooter">
+      <a href="https://www.davidebalice.dev" target="_blank"
+        >www.davidebalice.dev</a
+      >
+    </div>
   </div>
 </div>
