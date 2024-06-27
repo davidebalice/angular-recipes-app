@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Recipe } from '../model/recipe.model';
 import { RecipeService } from '../services/recipe.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipes',
@@ -10,20 +10,13 @@ import { Router } from '@angular/router';
 })
 export class RecipesComponent implements OnInit {
   selectedRecipe: Recipe;
+  pagination: boolean = true;
 
-  constructor(private recipeService: RecipeService,    private router: Router,
-  ) {}
+  constructor(private recipeService: RecipeService, private router: Router) {}
 
-  ngOnInit() {
-    /*
-    this.recipeService.recipeSelected.subscribe((recipe: Recipe) => {
-      this.selectedRecipe = recipe;
-    });*/
-  }
+  ngOnInit() {}
 
-  onBackRecipes() {
-    // this.selectedRecipe = null;
-  }
+  onBackRecipes() {}
 
   onNewRecipe() {
     this.router.navigate(['/recipes/new']);

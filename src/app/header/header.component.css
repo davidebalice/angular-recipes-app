@@ -7,6 +7,7 @@
 .logoContainer {
   text-align: center;
   margin-top: 10px;
+  margin-left: 10px;
   text-decoration: none;
 }
 
@@ -33,8 +34,8 @@
   cursor: pointer;
 }
 
-.navbarNav{
-  margin-left:22px;
+.navbarNav {
+  margin-left: 22px;
 }
 
 .navButton {
@@ -48,22 +49,22 @@
 }
 
 .navButton:hover {
- background-color: #3faab1;
+  background-color: #3faab1;
 }
 
 @media (max-width: 968px) {
-  .categoryButton{
-    display:none
+  .categoryButton {
+    display: none;
   }
 }
 
-.navButton{
-  color:#fff !important;
+.navButton {
+  color: #fff !important;
   cursor: pointer;
 }
 
-.navButton a{
-  color:#fff !important;
+.navButton a {
+  color: #fff !important;
   font-size: 21px;
   font-weight: bold;
 }

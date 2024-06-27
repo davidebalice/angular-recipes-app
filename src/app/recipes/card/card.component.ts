@@ -1,16 +1,16 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, catchError, take } from 'rxjs';
+import { AppConfig } from '../../app-config';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
-import { AppConfig } from '../../app-config';
 
 @Component({
-  selector: 'app-item',
-  templateUrl: './item.component.html',
-  styleUrl: './item.component.css',
+  selector: 'app-card',
+  templateUrl: './card.component.html',
+  styleUrl: './card.component.css',
 })
-export class ItemComponent implements OnInit {
+export class CardComponent implements OnInit {
   @Input() recipe: Recipe;
   fullStars: number = 0;
   halfStar: boolean = false;
@@ -78,10 +78,14 @@ export class ItemComponent implements OnInit {
     }
   }
 
+  onEditRecipe(recipeId: number) {
+    this.router.navigate([`/recipes/${recipeId}/edit`]);
+  }
+
   generateStarsArray(difficulty: number): string[] {
     const maxStars = 5;
     let starsArray: string[] = [];
-    
+
     for (let i = 1; i <= maxStars; i++) {
       if (i <= difficulty) {
         starsArray.push('star');

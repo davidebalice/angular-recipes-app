@@ -1,5 +1,5 @@
 <div class="container">
   <app-hero></app-hero>
-  <app-list [limit]="6"></app-list>
-  <div class="viewAll">View all recipes</div>
+  <app-list [limit]="6" [pagination]="pagination"></app-list>
+  <div class="viewAll" (click)="onRecipes()">View all recipes</div>
 </div>

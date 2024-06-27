@@ -1,0 +1,14 @@
+.imgDetail{
+    width:100%
+}
+
+.loadingContainer{
+    min-height:300px;
+    padding-top:30px;
+    text-align: center;
+}
+
+.backButton{
+    width:130px;
+    background: #57bfc6;
+}

@@ -17,7 +17,6 @@
   border-radius: 10px;
   border: 1px solid #ddd;
   overflow: hidden;
-
 }
 
 @media (max-width: 767px) {
@@ -26,8 +25,8 @@
   }
 }
 
-.loginBody{
-  padding:1rem;
+.loginBody {
+  padding: 1rem;
 }
 
 form div {
@@ -73,7 +72,7 @@ button:disabled {
 .loginLogoContainer {
   width: 100%;
   text-align: center;
-  padding:1rem;
+  padding: 1rem;
   border-bottom: 1px solid #aaa;
   background-color: #fff;
 }
@@ -95,7 +94,6 @@ button:disabled {
   line-height: 26px;
   padding: 11px;
   margin-top: 20px;
-  background-color: ;
 }
 
 .loginFooter {
@@ -104,9 +102,17 @@ button:disabled {
   font-weight: bold;
   border-top: 1px solid #aaa;
   background-color: #fff;
-  padding:0.6rem;
+  padding: 0.6rem;
 }
 
 .loginFooter a {
   text-decoration: none;
+}
+
+.errorMessage {
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  color: red;
+  padding-top: 20px;
 }

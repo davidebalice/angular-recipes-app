@@ -1,0 +1,49 @@
+.loadingContainer {
+  min-height: 300px;
+  padding-top: 30px;
+  text-align: center;
+}
+
+.noRecipes{
+    min-height:500px;
+    text-align: center;
+    font-size: 22px;
+    padding-top: 100px;
+}
+
+.customPagination {
+  text-align: center;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.customPagination .pagination-page .page-item.active .page-link {
+  background-color: #57bfc6 !important;
+  border-color: #57bfc6 !important;
+  font-weight: bold;
+  color: white;
+}
+
+.customPagination .page-link {
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+  font-weight: bold;
+  color: #57bfc6 !important;
+}
+
+.customPagination .page-link:hover {
+  background-color: #e9ecef;
+  color: #0056b3;
+}
+
+.customPagination .page-item.disabled .page-link {
+  background-color: #ffffff;
+  color: #6c757d;
+}
+
+.customPagination .page-item:first-child .page-link,
+.customPagination .page-item:last-child .page-link {
+  border-radius: 0.25rem;
+}

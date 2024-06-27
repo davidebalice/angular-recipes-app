@@ -66,7 +66,12 @@ export class RecipeService implements OnInit, OnDestroy {
     );
   }
 
-  fetchRecipes(keyword?: string, category?: number, limit?: number): Observable<Recipe[]> {
+  fetchRecipes(
+    keyword?: string,
+    category?: number,
+    limit?: number,
+    page: number = 1
+  ): Observable<{ recipes: Recipe[]; totalItems: number }> {
     const headers = this.getHeaders();
     let apiUrl = '/recipes/';
     let params = new HttpParams();
@@ -83,27 +88,27 @@ export class RecipeService implements OnInit, OnDestroy {
       }
     }
 
-    if(limit){
+    console.log(params);
+
+    if (limit) {
       params = params.append('size', limit);
     }
+    params = params.append('page', (page - 1).toString());
 
     return this.http
-      .get<{ Recipe }>(apiUrl, {
+      .get<{ recipes: Recipe[]; totalItems: number }>(apiUrl, {
         headers,
         params,
       })
       .pipe(
-        map((responseData) => {
-          console.log(responseData);
-          const recipeArray: Recipe[] = [];
-          for (const key in responseData) {
-            if (responseData.hasOwnProperty(key)) {
-              recipeArray.push({ ...responseData[key] });
-            }
-          }
-          this.recipes = recipeArray;
-          this.recipesList.next(this.recipes.slice());
-          return recipeArray;
+        map((response) => {
+          return {
+            recipes: response.recipes.map((recipe) => ({
+              ...recipe,
+              categoryName: recipe.categoryDto?.name || 'Unknown Category',
+            })),
+            totalItems: response.totalItems,
+          };
         }),
         catchError((error) => {
           if (error.status === 401) {
@@ -236,5 +241,4 @@ export class RecipeService implements OnInit, OnDestroy {
       );
     }
   }
-
 }

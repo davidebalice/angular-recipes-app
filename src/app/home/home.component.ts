@@ -1,10 +1,16 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
+  styleUrl: './home.component.css',
 })
 export class HomeComponent {
+  constructor(private router: Router) {}
+  pagination: boolean = false;
 
+  onRecipes() {
+    this.router.navigate(['/recipes']);
+  }
 }

@@ -6,13 +6,29 @@
           class="col-12 col-md-4 mb-3"
           *ngFor="let recipeItem of loadedRecipes"
         >
-          <app-item [recipe]="recipeItem"></app-item>
+          <app-card [recipe]="recipeItem"></app-card>
         </div>
       </div>
     </ng-container>
+
+    <div class="customPagination" *ngIf="pagination && totalItems > limit">
+      <pagination
+        [totalItems]="totalItems"
+        [(ngModel)]="currentPage"
+        [itemsPerPage]="limit"
+        (pageChanged)="onPageChanged($event)"
+        [maxSize]="5"
+        boundaryLinks="true"
+      >
+      </pagination>
+    </div>
+
     <ng-template #noRecipes>
-      <div>No recipes available.</div>
+      <div class="noRecipes">No recipes available.</div>
     </ng-template>
-    <div *ngIf="isLoading">loading...</div>
+
+    <div *ngIf="isLoading" class="loadingContainer">
+      <img src="../../../assets/images/loading.svg" />
+    </div>
   </div>
 </div>

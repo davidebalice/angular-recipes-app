@@ -1,14 +1,5 @@
 <div class="containerExt">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-12">
-        <button class="btn btn-success" (click)="onNewRecipe()">
-          <mat-icon> add_circle </mat-icon>
-          <p>New Recipe</p>
-        </button>
-      </div>
-    </div> 
-    <hr />
-    <app-list></app-list>
+  <div class="container mt-4">
+    <app-list [pagination]="pagination" [limit]="9"></app-list>
   </div>
 </div>

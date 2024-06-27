@@ -17,5 +17,43 @@
 .heroTextBox{
     width:30%;
     height:100%;
+    color:#fff;
     background:rgba(0, 0, 0, 0.7);
+    text-align: center;
+    padding-top:30px;
+    line-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.heroText {
+  font-size: 21px;
+  text-align: center;
+  line-height: 32px;
+  
+}
+
+.heroText b {
+  font-size: 28px;
+}
+
+.recipesLogo{
+  width:22%;
+  margin-bottom:20px
+}
+
+.angularLogo{
+  margin:0 auto;
+  width:34%;
+  margin-top:20px
+}
+
+.heroTextFooter{
+  font-size: 16px;
+}
+
+.heroTextFooter a{
+ color:#fff;
+ text-decoration: none;
 }

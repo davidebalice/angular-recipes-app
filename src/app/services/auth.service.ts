@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +10,7 @@ import { tap } from 'rxjs/operators';
 export class AuthService {
   private authUrl = '/login';
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+  errorMessage: string;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -18,6 +19,11 @@ export class AuthService {
       tap((response) => {
         this.setToken(response);
         this.isLoggedInSubject.next(true);
+      }),
+      catchError((error) => {
+        this.errorMessage =
+          'Login failed. Please check your credentials and try again.';
+        return throwError(error);
       })
     );
   }

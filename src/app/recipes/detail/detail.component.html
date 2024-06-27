@@ -1,54 +1,62 @@
-<div class="row" *ngIf="recipe$ | async as recipe; else loading">
+<div class="container" *ngIf="recipe$ | async as recipe; else loading">
+  <button class="btn btn-primary backButton" (click)="onBackRecipes()">
+    < Back
+  </button>
+
   <div class="row">
-    <button class="btn btn-primary" (click)="onBackRecipes()">< Back</button>
-    <div class="col-xs-12">
+    <div class="col-md-6 col-12">
       <img
-      [src]="getFullImageUrl(recipe.imageUrl)"
+        [src]="getFullImageUrl(recipe.imageUrl)"
         alt="{{ recipe.name }}"
-        class="img-responsive"
+        class="imgDetail"
       />
     </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <h1>{{ recipe.title }}</h1>
-      <h4>{{ recipe.description }}</h4>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="dropdown" appDropdown>
-        <button
-          class="btn btn-primary dropdown-toggle"
-          type="button"
-          id="dropdownMenu2"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
-          Manage Recipe <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-          <li>
-            <a (click)="onAddToShoppingList()" style="cursor: pointer"
-              >To Shopping List</a
+    <div class="col-md-6 col-12">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1>{{ recipe.title }}</h1>
+          <h4>{{ recipe.description }}</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="dropdown" appDropdown>
+            <button
+              class="btn btn-primary dropdown-toggle"
+              type="button"
+              id="dropdownMenu2"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
             >
-          </li>
-          <li>
-            <a (click)="onEditRecipe()" style="cursor: pointer">Edit Recipe</a>
-          </li>
-          <li>
-            <a (click)="onDeleteRecipe()" style="cursor: pointer"
-              >Delete Recipe</a
-            >
-          </li>
-        </ul>
+              Manage Recipe <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <li>
+                <a (click)="onAddToShoppingList()" style="cursor: pointer"
+                  >To Shopping List</a
+                >
+              </li>
+              <li>
+                <a (click)="onEditRecipe()" style="cursor: pointer"
+                  >Edit Recipe</a
+                >
+              </li>
+              <li>
+                <a (click)="onDeleteRecipe()" style="cursor: pointer"
+                  >Delete Recipe</a
+                >
+              </li>
+            </ul>
+            <div class="row">
+              <div class="col-xs-12">Description</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="row">
-    <div class="col-xs-12">Description</div>
-  </div>
+
   <div class="row">
     <div class="col-xs-12">
       <ul class="list-group">
@@ -62,6 +70,6 @@
     </div>
   </div>
 </div>
-<ng-template #loading>
-  <p>Caricamento...</p>
+<ng-template #loading class="loadingContainer">
+  <img src="../../../assets/images/loading.svg" />
 </ng-template>

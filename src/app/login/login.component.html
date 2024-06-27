@@ -44,6 +44,12 @@
         >
           Login
         </button>
+
+        <div *ngIf="errorMessage" class="errorMessage">
+          {{ errorMessage }}
+        </div>
+
+
         <div class="loginDemoData">
           <b>demo data</b>:
           <br />

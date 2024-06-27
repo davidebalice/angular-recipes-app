@@ -1,0 +1,87 @@
+<div class="card cardRecipe">
+  <div class="row g-0">
+    <div
+      class="categoryContainer"
+      [ngStyle]="{ 'background-color': '#' + recipe.categoryDto.bg }"
+    >
+      {{ recipe.categoryDto.name }}
+    </div>
+
+    <div class="imgContainer">
+      <img
+        [src]="getFullImageUrl(recipe.imageUrl)"
+        alt="{{ recipe.title }}"
+        class="imgRecipe"
+        (click)="onSelected()"
+      />
+    </div>
+
+    <div class="card-body cardBody">
+      <h4 class="cardTitle" (click)="onSelected()">{{ recipe.title }}</h4>
+      <div class="cardInfo">
+        <div>
+          <span class="cardDifficulty">Difficulty:</span>
+          <br />
+          <ng-container
+            *ngFor="let icon of generateStarsArray(recipe.difficulty)"
+          >
+            <mat-icon class="starIcon">{{ icon }}</mat-icon>
+          </ng-container>
+        </div>
+        <div>
+          <span class="cardDifficulty">Preparation time:</span>
+          <br />
+          <div class="scheduleContainer">
+            <mat-icon class="clockIcon">schedule</mat-icon>
+            <span class="">{{ recipe.preparationTime }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer cardFooter">
+      <button
+        class="btn btn-success buttonCard"
+        (click)="onSelected()"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Detail"
+      >
+        <mat-icon>list_alt</mat-icon>
+      </button>
+
+      <button
+        class="btn btn-success buttonCard"
+        (click)="onEditRecipe(recipe.id)"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Edit"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button
+        class="btn btn-success buttonCard"
+        (click)="onPhotoRecipe(recipe.id)"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Photo"
+      >
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <button
+        class="btn btn-danger buttonCard buttonCardDelete"
+        (click)="onDeleteRecipe(recipe.id)"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Delete"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+</div>

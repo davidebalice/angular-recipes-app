@@ -12,12 +12,16 @@ import { RecipeService } from '../../services/recipe.service';
 export class ListComponent implements OnInit, OnDestroy {
   subscription: Subscription;
   loadedRecipes: Recipe[] = [];
+  paginatedRecipes: Recipe[] = [];
   isLoading = true;
   error = null;
+  totalItems: number;
+  currentPage: number = 1;
   private errorSub: Subscription;
   private queryParamSub: Subscription;
   private routeParamsSub: Subscription;
   @Input() limit: number;
+  @Input() pagination: boolean;
 
   constructor(
     private recipeService: RecipeService,
@@ -72,15 +76,16 @@ export class ListComponent implements OnInit, OnDestroy {
   fetchRecipes(searchKey?: string, categoryId?: number) {
     this.isLoading = true;
     this.subscription = this.recipeService
-      .fetchRecipes(searchKey, categoryId, this.limit)
+      .fetchRecipes(searchKey, categoryId, this.limit, this.currentPage)
       .subscribe({
-        next: (recipes) => {
+        next: (response) => {
           this.isLoading = false;
-
-          this.loadedRecipes = recipes.map((recipe) => ({
+          this.loadedRecipes = response.recipes.map((recipe) => ({
             ...recipe,
             categoryName: recipe.categoryDto?.name || 'Unknown Category',
           }));
+          this.totalItems = response.totalItems;
+          this.paginateRecipes();
         },
         error: (error) => {
           this.isLoading = false;
@@ -88,5 +93,16 @@ export class ListComponent implements OnInit, OnDestroy {
           console.log(error);
         },
       });
+  }
+
+  onPageChanged(event: any): void {
+    this.currentPage = event.page;
+    this.fetchRecipes();
+  }
+
+  paginateRecipes() {
+    const startIndex = (this.currentPage - 1) * this.limit;
+    const endIndex = startIndex + this.limit;
+    this.paginatedRecipes = this.loadedRecipes.slice(startIndex, endIndex);
   }
 }
