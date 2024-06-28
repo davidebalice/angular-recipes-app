@@ -1,14 +1,175 @@
-.imgDetail{
-    width:100%
+.imgDetail {
+  width: 100%;
 }
 
-.loadingContainer{
-    min-height:300px;
-    padding-top:30px;
-    text-align: center;
+.loadingContainer {
+  min-height: 300px;
+  padding-top: 30px;
+  text-align: center;
 }
 
-.backButton{
-    width:130px;
-    background: #57bfc6;
+.detailTop {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.detailTitle {
+  font-size: 28px;
+  font-family: Caveat;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+.detailDescription {
+  font-size: 20px;
+  font-family: Caveat;
+}
+
+.spacer {
+  border-top: 1px dashed #ccc;
+  margin-top: 30px;
+  height: 30px;
+}
+
+.spacerTop {
+  border-top: 1px dashed #ccc;
+  margin-top: 20px;
+  height: 20px;
+}
+
+.ingredientsContainer {
+  width: 98%;
+  float: left;
+  border: 1px solid #ddd;
+  min-height: 300px;
+  background-color: #fff;
+}
+
+.ingredientsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.listPadding {
+  padding: 16px;
+}
+
+.listTitle {
+  font-weight: bold;
+  padding: 20px 0px 0px 16px;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tipsContainer {
+  width: 98%;
+  float: right;
+  border: 1px solid #ddd;
+  min-height: 300px;
+  background-color: #e1baa2;
+}
+
+.buttonContainer {
+  width: 100% !important;
+  display: flex;
+  justify-content: end;
+  gap: 4px;
+  font-size: 16px;
+}
+
+.buttonContainer .mat-icon {
+  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonCard {
+  background-color: #57bfc6;
+  padding: 5px 10px !important;
+  display: flex;
+  align-items: center;
+  border: none;
+  box-shadow: 0px 2px 1px 0px rgb(0, 0, 0, 0.4);
+}
+
+.buttonCard:hover {
+  background-color: #3faab1;
+}
+
+.buttonCardDelete {
+  background-color: red;
+}
+
+.buttonCardDelete:hover {
+  background-color: #e02804;
+}
+
+.buttonBack {
+  width: 90px;
+  font-weight: bold;
+  text-align: center;
+  justify-content: center;
+}
+
+.dataContainer {
+  display: flex;
+  border: 1px solid #ddd;
+  background-color: #fff;
+  margin-bottom: 30px;
+}
+
+.dataItem {
+  width: 33%;
+  padding: 10px;
+}
+
+.dataItem:not(:first-child) {
+  border-left: 1px solid #ddd;
+}
+
+.dataTitle {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.starIcon {
+  color: #d8a508;
+}
+
+.dataTime {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.addToList {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+  margin-right: 16px;
+  cursor: pointer;
+  margin-top: 4px;
+  font-size:17px;
+  font-weight: bold;
+  background-color: #f1f1f1;
+  border-radius: 6px;
+  box-shadow: 0px 1px 1px 0px rgb(0, 0, 0, 0.4);
+}
+
+.addToList:hover {
+  background-color: #d1d1d1;
+}
+
+.listAdded{
+    font-weight: bold;
+    margin-right:14px;
+    font-size:20px;
+    color:green
 }

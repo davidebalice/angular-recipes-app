@@ -1,7 +1,48 @@
-<div class="container" *ngIf="recipe$ | async as recipe; else loading">
-  <button class="btn btn-primary backButton" (click)="onBackRecipes()">
-    < Back
-  </button>
+<div class="container mt-3" *ngIf="recipe$ | async as recipe; else loading">
+  <div class="detailTop">
+    <button
+      class="btn btn-primary buttonCard buttonBack"
+      (click)="onBackRecipes()"
+    >
+      < Back
+    </button>
+
+    <div class="card-footer buttonContainer">
+      <button
+        class="btn btn-success buttonCard"
+        (click)="onEditRecipe(recipe.id)"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Edit"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+
+      <button
+        class="btn btn-success buttonCard"
+        (click)="onPhotoRecipe(recipe.id)"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Photo"
+      >
+        <mat-icon>photo_camera</mat-icon>
+      </button>
+      <button
+        class="btn btn-danger buttonCard buttonCardDelete"
+        (click)="onDeleteRecipe(recipe.id)"
+        matTooltipPosition="above"
+        matTooltipShowDelay="100"
+        matTooltipHideDelay="100"
+        matTooltip="Delete"
+      >
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
+  </div>
+
+  <div class="spacerTop"></div>
 
   <div class="row">
     <div class="col-md-6 col-12">
@@ -14,59 +55,83 @@
     <div class="col-md-6 col-12">
       <div class="row">
         <div class="col-xs-12">
-          <h1>{{ recipe.title }}</h1>
-          <h4>{{ recipe.description }}</h4>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="dropdown" appDropdown>
-            <button
-              class="btn btn-primary dropdown-toggle"
-              type="button"
-              id="dropdownMenu2"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Manage Recipe <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <li>
-                <a (click)="onAddToShoppingList()" style="cursor: pointer"
-                  >To Shopping List</a
-                >
-              </li>
-              <li>
-                <a (click)="onEditRecipe()" style="cursor: pointer"
-                  >Edit Recipe</a
-                >
-              </li>
-              <li>
-                <a (click)="onDeleteRecipe()" style="cursor: pointer"
-                  >Delete Recipe</a
-                >
-              </li>
-            </ul>
-            <div class="row">
-              <div class="col-xs-12">Description</div>
+          <div class="dataContainer">
+            <div class="dataItem">
+              <p class="dataTitle">Difficulty:</p>
+              <ng-container
+                *ngFor="let icon of generateStarsArray(recipe.difficulty)"
+              >
+                <mat-icon class="starIcon">{{ icon }}</mat-icon>
+              </ng-container>
+            </div>
+            <div class="dataItem">
+              <div class="dataTitle">
+                <p>Preparation time:</p>
+                <div class="dataTime">
+                  <mat-icon>schedule</mat-icon> {{ recipe.preparationTime }}
+                </div>
+              </div>
+            </div>
+            <div class="dataItem">
+              <div class="dataTitle">
+                <p>Cooking time:</p>
+                <div class="dataTime">
+                  <mat-icon>schedule</mat-icon> {{ recipe.cookingTime }}
+                </div>
+              </div>
             </div>
           </div>
+
+          <h1 class="detailTitle">{{ recipe.title }}</h1>
+
+          <h4 class="detailDescription">{{ recipe.description }}</h4>
         </div>
       </div>
     </div>
   </div>
 
+  <div class="spacer"></div>
+
   <div class="row">
-    <div class="col-xs-12">
-      <ul class="list-group">
-        <li
-          class="list-group-item"
-          *ngFor="let ingredient of recipe.ingredients; let i = index"
-        >
-          {{ ingredient.title }} - {{ ingredient.quantity }}
-        </li>
-      </ul>
+    <div class="col-md-6 col-12">
+      <div class="ingredientsContainer">
+        <div class="ingredientsHeader">
+          <p class="listTitle">
+            <mat-icon>receipt_long</mat-icon>
+            <span>Ingredients</span>
+          </p>
+
+          <div
+            *ngIf="!slMessage"
+            class="addToList"
+            (click)="onAddToShoppingList()"
+          >
+            <mat-icon>arrow_forward</mat-icon>
+            <mat-icon>local_mall</mat-icon>
+            <span>To Shopping List</span>
+          </div>
+
+          <div *ngIf="slMessage" class="listAdded">added to shopping list</div>
+        </div>
+
+        <ul class="list-group listPadding">
+          <li
+            class="list-group-item"
+            *ngFor="let ingredient of recipe.ingredients; let i = index"
+          >
+            {{ ingredient.title }} - {{ ingredient.quantity }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-md-6 col-12">
+      <div class="tipsContainer">
+        <p class="listTitle">
+          <mat-icon>lightbulb</mat-icon>
+          <span>Tips</span>
+        </p>
+        <p class="list-group listPadding">aaaa</p>
+      </div>
     </div>
   </div>
 </div>

@@ -47,6 +47,7 @@ export class CardComponent implements OnInit {
     }
     return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
   }
+  
   onDeleteRecipe(recipeId: number) {
     const confirmDelete = confirm(
       'Are you sure you want to delete this recipe?'

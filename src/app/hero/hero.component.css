@@ -15,7 +15,7 @@
 }
 
 .heroTextBox{
-    width:30%;
+    width:32%;
     height:100%;
     color:#fff;
     background:rgba(0, 0, 0, 0.7);
@@ -56,4 +56,8 @@
 .heroTextFooter a{
  color:#fff;
  text-decoration: none;
+}
+
+.site{
+  font-size:20px
 }
