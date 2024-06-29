@@ -82,13 +82,9 @@ export class RecipeService implements OnInit, OnDestroy {
     } else {
       if (category > 0) {
         apiUrl = '/recipes/searchByCategoryId';
-        console.log('param category');
-        console.log(category);
         params = params.append('categoryId', category);
       }
     }
-
-    console.log(params);
 
     if (limit) {
       params = params.append('size', limit);

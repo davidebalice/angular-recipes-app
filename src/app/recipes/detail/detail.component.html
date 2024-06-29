@@ -116,10 +116,15 @@
 
         <ul class="list-group listPadding">
           <li
-            class="list-group-item"
+            class="list-group-item ingredientsRow"
             *ngFor="let ingredient of recipe.ingredients; let i = index"
           >
-            {{ ingredient.title }} - {{ ingredient.quantity }}
+          
+          
+          <div>{{ ingredient.title }}</div>
+          <div>{{ ingredient.quantity }}</div>
+          
+         
           </li>
         </ul>
       </div>
@@ -130,7 +135,7 @@
           <mat-icon>lightbulb</mat-icon>
           <span>Tips</span>
         </p>
-        <p class="list-group listPadding">aaaa</p>
+        <div class="tipsText">aaaa</div>
       </div>
     </div>
   </div>

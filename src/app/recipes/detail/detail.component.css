@@ -39,11 +39,33 @@
 }
 
 .ingredientsContainer {
-  width: 98%;
+  width: 100%;
   float: left;
   border: 1px solid #ddd;
-  min-height: 300px;
+  min-height: 400px;
   background-color: #fff;
+}
+
+.ingredientsRow{
+  display: flex;
+  justify-content: space-between;
+  font-size: 17px;
+  padding:0;
+}
+
+.ingredientsRow > :nth-child(1) {
+  padding:7px;
+}
+
+.ingredientsRow > :nth-child(2) {
+  font-weight: bold;
+  border-left:1px solid #ddd;
+  padding-left:10px;
+  width:50px;
+  font-size: 18px;
+  text-align: center;
+  background-color: #f1f1f1;
+  padding:7px;
 }
 
 .ingredientsHeader {
@@ -63,14 +85,6 @@
   display: flex;
   align-items: center;
   gap: 6px;
-}
-
-.tipsContainer {
-  width: 98%;
-  float: right;
-  border: 1px solid #ddd;
-  min-height: 300px;
-  background-color: #e1baa2;
 }
 
 .buttonContainer {
@@ -151,12 +165,12 @@
   display: flex;
   align-items: center;
   gap: 3px;
-  padding: 6px 10px;
+  padding: 6px 8px;
   border: 1px solid #ddd;
   margin-right: 16px;
   cursor: pointer;
   margin-top: 4px;
-  font-size:17px;
+  font-size: 17px;
   font-weight: bold;
   background-color: #f1f1f1;
   border-radius: 6px;
@@ -167,9 +181,32 @@
   background-color: #d1d1d1;
 }
 
-.listAdded{
-    font-weight: bold;
-    margin-right:14px;
-    font-size:20px;
-    color:green
+.listAdded {
+  font-weight: bold;
+  margin-right: 14px;
+  font-size: 20px;
+  color: green;
+}
+
+.tipsContainer {
+  width: 100%;
+  float: right;
+  border: 1px solid #ddd;
+  height: 400px;
+  min-height: 300px;
+  background-color: #e1baa2;
+  position: relative;
+}
+
+.tipsText {
+  background-color: #fff;
+  border-radius: 6px;
+  border: 1px solid #c79170;
+  width: 94%;
+  margin: 0 auto;
+  font-size: 16px;
+  padding: 20px;
+  box-shadow: 1px 0px 6px 2px rgb(0, 0, 0, 0.18) inset;
+  margin-top: 20px;
+  height: 310px;
 }
