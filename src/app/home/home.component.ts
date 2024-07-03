@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   constructor(private router: Router) {}
   pagination: boolean = false;
+  page: string = "home";
 
   onRecipes() {
     this.router.navigate(['/recipes']);

@@ -1,13 +1,9 @@
 <div class="card cardRecipe">
   <div class="row g-0">
-    <div
-      class="categoryContainer"
-      [ngStyle]="{ 'background-color': '#' + recipe.categoryDto.bg }"
-    >
-      {{ recipe.categoryDto.name }}
-    </div>
-
     <div class="imgContainer">
+      <div class="categoryContainer">
+        {{ recipe.categoryDto.name }}
+      </div>
       <img
         [src]="getFullImageUrl(recipe.imageUrl)"
         alt="{{ recipe.title }}"

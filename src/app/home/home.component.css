@@ -4,7 +4,7 @@
   margin-top: 30px;
   margin-bottom: 30px;
   clear:both;
-  background:#57bfc6;
+  background:var(--primary-color);
   border-radius:8px;
   text-align: center;
   font-size: 20px;
@@ -16,5 +16,5 @@
 }
 
 .viewAll:hover {
-  background:#3faab1;
+  background:var(--primary-color-hover);
 }

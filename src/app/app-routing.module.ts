@@ -7,6 +7,7 @@ import { NewComponent } from './recipes/new/new.component';
 import { RecipesComponent } from './recipes/recipes.component';
 import { HomeComponent } from './home/home.component';
 import { PhotoComponent } from './recipes/photo/photo.component';
+import { ThemeComponent } from './theme/theme.component';
 import { ReloadComponent } from './reload/reload.component';
 import { AuthGuard } from './services/auth.guard';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
@@ -37,6 +38,10 @@ const appRoutes: Routes = [
   {
     path: 'shopping-list',
     component: ShoppingListComponent,
+  },
+  {
+    path: 'theme',
+    component: ThemeComponent,
   },
   { path: '**', redirectTo: 'not-found' },
 ];

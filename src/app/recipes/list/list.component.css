@@ -4,11 +4,11 @@
   text-align: center;
 }
 
-.noRecipes{
-    min-height:500px;
-    text-align: center;
-    font-size: 22px;
-    padding-top: 100px;
+.noRecipes {
+  min-height: 500px;
+  text-align: center;
+  font-size: 22px;
+  padding-top: 100px;
 }
 
 .customPagination {
@@ -20,8 +20,8 @@
 }
 
 .customPagination .pagination-page .page-item.active .page-link {
-  background-color: #57bfc6 !important;
-  border-color: #57bfc6 !important;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
   font-weight: bold;
   color: white;
 }
@@ -30,7 +30,7 @@
   background-color: #f8f9fa;
   border-color: #dee2e6;
   font-weight: bold;
-  color: #57bfc6 !important;
+  color: var(--primary-color) !important;
 }
 
 .customPagination .page-link:hover {
@@ -46,4 +46,13 @@
 .customPagination .page-item:first-child .page-link,
 .customPagination .page-item:last-child .page-link {
   border-radius: 0.25rem;
+}
+
+.listContainer {
+  min-height: calc(100vh - 300px);
+}
+
+.listWrapper {
+  padding: 0 !important;
+  margin: 0 auto;
 }

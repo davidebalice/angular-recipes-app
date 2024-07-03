@@ -31,6 +31,10 @@ export class PhotoComponent implements OnInit {
     private router: Router
   ) {}
 
+  onBackRecipes() {
+    this.router.navigate(['/recipes']);
+  }
+
   ngOnInit(): void {
     this.route.params.subscribe((params: Params) => {
       this.editMode = params['id'] != null;

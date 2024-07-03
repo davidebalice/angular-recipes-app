@@ -20,6 +20,7 @@ export class ListComponent implements OnInit, OnDestroy {
   private errorSub: Subscription;
   private queryParamSub: Subscription;
   private routeParamsSub: Subscription;
+  @Input() page: string;
   @Input() limit: number;
   @Input() pagination: boolean;
 
@@ -28,7 +29,10 @@ export class ListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) {}
 
+  isHome: boolean = false;
+
   ngOnInit() {
+    this.isHome = this.page === 'home';
     this.errorSub = this.recipeService.error.subscribe((errorMessage) => {
       this.error = errorMessage;
     });

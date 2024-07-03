@@ -1,0 +1,9 @@
+.inputUpload{
+    max-width:400px;
+}
+
+.uploadContainer{
+    display:flex;
+    gap:4px
+}
+

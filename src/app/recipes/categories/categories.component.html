@@ -3,10 +3,7 @@
     class="categoryItem"
     *ngFor="let category of categories"
     (click)="onSelectCategory(category)"
-    [ngStyle]="{
-      'background-color': '#' + category.bg,
-      color: '#' + category.color
-    }"
+  
   >
     <img
       [src]="'../../../assets/images/' + category.name.trim() + '.png'"

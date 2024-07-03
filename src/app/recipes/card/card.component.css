@@ -5,17 +5,23 @@
   overflow: hidden;
 }
 
-.cardRecipe{
+.cardRecipe {
   box-shadow: 0px 2px 3px 0px rgb(0, 0, 0, 0.2);
 }
 
 .categoryContainer {
-  width: 100%;
+  width: fit-content;
+  position: absolute;
+  text-align: right;
+  z-index: 1;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 4px;
   height: 30px;
   font-weight: bold;
   color: #fff;
   font-size: 18px;
-  padding: 4px 10px;
+  padding: 4px 20px;
   overflow: hidden;
 }
 
@@ -90,19 +96,18 @@
   padding: 5px 10px !important;
   display: flex;
   align-items: center;
-  border:none;
-  box-shadow: 0px 2px 1px 0px rgb(0, 0, 0, 0.40);
+  border: none;
+  box-shadow: 0px 2px 1px 0px rgb(0, 0, 0, 0.4);
 }
 
 .buttonCard:hover {
   background-color: #3faab1;
 }
 
-.buttonCardDelete{
+.buttonCardDelete {
   background-color: red;
 }
 
-.buttonCardDelete:hover{
+.buttonCardDelete:hover {
   background-color: #e02804;
 }
-

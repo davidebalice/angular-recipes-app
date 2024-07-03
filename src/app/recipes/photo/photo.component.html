@@ -1,15 +1,17 @@
-<div class="row" *ngIf="recipe$ | async as recipe; else loading">
-  <div class="row">
-    <div class="col-xs-12">
+<div class="container" *ngIf="recipe$ | async as recipe; else loading">
+  <div class="page">
+    <div class="pageTitle">Photo of Recipe</div>
+    <div class="pageTop">
+      <button
+        class="btn btn-primary buttonCard buttonBack"
+        (click)="onBackRecipes()"
+      >
+        < Back
+      </button>
+    </div>
+
+    <div class="row">
       <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
-        <div class="row">
-          <div class="col-xs-12">
-            <button type="submit" class="btn btn-success">Save</button>
-            <button type="button" class="btn btn-danger" (click)="onCancel()">
-              Cancel
-            </button>
-          </div>
-        </div>
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">
@@ -17,22 +19,20 @@
             </div>
           </div>
         </div>
-        {{ recipe.imageUrl }}
+
         <div class="row">
-          <div class="col-xs-12">
-            <div class="form-group">
-              <label for="image">Image URL</label>
-              <input
-                type="file"
-                id="image"
-                formControlName="image"
-                name="image"
-                class="form-control"
-                #image
-                accept="image/*"
-                (change)="uploadImage($event)"
-              />
-            </div>
+          <div class="form-group uploadContainer">
+            <input
+              type="file"
+              id="image"
+              formControlName="image"
+              name="image"
+              class="form-control inputUpload"
+              #image
+              accept="image/*"
+              (change)="uploadImage($event)"
+            />
+            <button type="submit" class="btn btn-success">Upload file</button>
           </div>
         </div>
         <div class="row">
@@ -44,6 +44,7 @@
     </div>
   </div>
 </div>
+
 <ng-template #loading>
   <p>Loading...</p>
 </ng-template>
