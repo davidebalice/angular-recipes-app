@@ -1,6 +1,7 @@
 <div class="row">
+  <div [ngClass]="{ listContainer: !isHome }">
     <ng-container *ngIf="loadedRecipes.length > 0; else noRecipes">
-      <div class="row listWrapper" [ngClass]="{'listContainer': !isHome}">
+      <div class="row listWrapper">
         <div
           class="col-12 col-md-4 mb-3"
           *ngFor="let recipeItem of loadedRecipes"
@@ -9,25 +10,25 @@
         </div>
       </div>
     </ng-container>
+  </div>
 
-    <div class="customPagination" *ngIf="pagination && totalItems > limit">
-      <pagination
-        [totalItems]="totalItems"
-        [(ngModel)]="currentPage"
-        [itemsPerPage]="limit"
-        (pageChanged)="onPageChanged($event)"
-        [maxSize]="5"
-        boundaryLinks="true"
-      >
-      </pagination>
-    </div>
+  <div class="customPagination" *ngIf="pagination && totalItems > limit">
+    <pagination
+      [totalItems]="totalItems"
+      [(ngModel)]="currentPage"
+      [itemsPerPage]="limit"
+      (pageChanged)="onPageChanged($event)"
+      [maxSize]="5"
+      boundaryLinks="true"
+    >
+    </pagination>
+  </div>
 
-    <ng-template #noRecipes>
-      <div class="noRecipes">No recipes available.</div>
-    </ng-template>
+  <ng-template #noRecipes>
+    <div class="noRecipes">No recipes available.</div>
+  </ng-template>
 
-    <div *ngIf="isLoading" class="loadingContainer">
-      <img src="../../../assets/images/loading.svg" />
-    </div>
-  
+  <div *ngIf="isLoading" class="loadingContainer">
+    <img src="../../../assets/images/loading.svg" />
+  </div>
 </div>

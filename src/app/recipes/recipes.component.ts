@@ -21,4 +21,10 @@ export class RecipesComponent implements OnInit {
   onNewRecipe() {
     this.router.navigate(['/recipes/new']);
   }
+
+  onSearch(searchTerm: string): void {
+    if (searchTerm && searchTerm.trim().length > 0) {
+      this.router.navigate(['/recipes'], { queryParams: { key: searchTerm } });
+    } else this.router.navigate(['/recipes']);
+  }
 }

@@ -1,0 +1,25 @@
+.searchContainer {
+  display: flex;
+  padding: 0px 12px;
+  padding-bottom: 20px;
+}
+
+.searchButton {
+  width: 80px;
+  background: var(--primary-color);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  height: 44px;
+  justify-content: center;
+}
+
+.searchButton:hover {
+  background: var(--primary-color-hover);
+}
+
+.searchInput {
+  box-shadow: 0px 0px 6px 0px rgb(0, 0, 0, 0.26) inset;
+  font-size:18px
+}

@@ -11,7 +11,7 @@
     </div>
 
     <div class="row">
-      <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+      <form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
         <div class="row">
           <div class="col-xs-12">
             <div class="form-group">

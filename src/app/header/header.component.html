@@ -6,7 +6,11 @@
       <p class="logoText">Recipe Book</p></a
     >
 
-    <img src="../../assets/images/logoDbWhite.png" class="logoDb" />
+    <img
+      src="../../assets/images/logoDbWhite.png"
+      class="logoDb"
+      alt="logo davidebalice.dev"
+    />
 
     <button
       class="navbar-toggler"
@@ -29,22 +33,14 @@
         </li>
         <li class="nav-item navButton" routerLink="/recipes">
           <mat-icon>menu_book</mat-icon>
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            aria-current="page"
-            
+          <a class="nav-link" routerLinkActive="active" aria-current="page"
             >Recipes</a
           >
         </li>
 
         <li class="nav-item navButton" routerLink="/recipes/new">
           <mat-icon>add_circle</mat-icon>
-          <a
-            class="nav-link"
-            routerLinkActive="active"
-            aria-current="page"
-            
+          <a class="nav-link" routerLinkActive="active" aria-current="page"
             >Add recipe</a
           >
         </li>
@@ -66,29 +62,36 @@
         </li>
         <li class="nav-item navButton" routerLink="/shopping-list">
           <mat-icon>local_mall</mat-icon>
-          <a class="nav-link" >Shopping List</a>
+          <a class="nav-link">Shopping List</a>
         </li>
 
         <li class="nav-item navButton" routerLink="/theme">
           <mat-icon>settings</mat-icon>
-          <a class="nav-link" >Theme</a>
+          <a class="nav-link">Theme</a>
         </li>
       </ul>
 
-
-      <div *ngIf="isLoggedIn">
-        <button (click)="onLogout()"><mat-icon>logout</mat-icon></button>
+      <div class="rightHeader">
+        <div *ngIf="isLoggedIn">
+          <mat-icon
+            (click)="onLogout()"
+            class="logoutButton"
+            matTooltipPosition="above"
+            matTooltipShowDelay="100"
+            matTooltipHideDelay="100"
+            matTooltip="Logout"
+            >logout</mat-icon
+          >
+        </div>
+        <a
+          href="https://github.com/davidebalice/angular-recipes-app"
+          target="_blank"
+          ><img
+            src="../../assets/images/githubWhite.png"
+            alt="logo github"
+            class="logoGithub"
+        /></a>
       </div>
-      <form class="d-flex" (ngSubmit)="onSearch(searchInput.value)">
-        <input
-          #searchInput
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-        />
-        <button class="btn btn-outline-success" type="submit"><mat-icon>search</mat-icon></button>
-      </form>
     </div>
   </div>
 </nav>

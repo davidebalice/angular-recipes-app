@@ -19,12 +19,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout();
   }
 
-  onSearch(searchTerm: string): void {
-    if (searchTerm && searchTerm.trim().length > 0) {
-      this.router.navigate(['/recipes'], { queryParams: { key: searchTerm } });
-    } else this.router.navigate(['/recipes']);
-  }
-
   ngOnInit(): void {
     this.authSubscription = this.authService
       .isLoggedIn()

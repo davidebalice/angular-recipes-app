@@ -1,5 +1,17 @@
 <div class="container">
     <div class="page">
+        <form class="searchContainer" (ngSubmit)="onSearch(searchInput.value)">
+            <input
+              #searchInput
+              class="form-control me-2 searchInput"
+              type="search"
+              placeholder="Search"
+              aria-label="Search"
+            />
+            <button class="btn searchButton" type="submit">
+                <mat-icon>search</mat-icon>
+            </button>
+          </form>
         <app-list [pagination]="pagination" [limit]="9"></app-list>
     </div>
 </div>

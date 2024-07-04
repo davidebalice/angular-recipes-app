@@ -3,7 +3,11 @@
     <div class="pageTitle">Edit Recipe</div>
     <div class="row" *ngIf="recipe$ | async as recipe; else loading">
       <div class="col-xs-12">
-        <form [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
+        <form
+          *ngIf="recipeForm"
+          [formGroup]="recipeForm"
+          (ngSubmit)="onSubmit()"
+        >
           <div class="row">
             <div class="col-xs-12">
               <button
