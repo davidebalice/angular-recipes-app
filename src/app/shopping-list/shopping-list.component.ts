@@ -80,4 +80,21 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
     this.new = false;
     this.edit = false;
   }
+
+  printPage() {
+    window.print();
+  }
+/*
+  printPage() {
+    const printContent = document.getElementById('print-section')?.innerHTML;
+    const originalContent = document.body.innerHTML;
+
+    if (printContent) {
+      document.body.innerHTML = printContent;
+      window.print();
+      document.body.innerHTML = originalContent;
+    } else {
+      console.error('Sezione di stampa non trovata');
+    }
+  }*/
 }

@@ -2,7 +2,7 @@
   <div class="col-xs-12">
     <form (ngSubmit)="onSubmit(f)" #f="ngForm">
       <br />
-      <div class="row">
+      <div class="editContainer">
         <div class="col-sm-5 form-group">
           <label for="name">Name</label>
           <input
@@ -26,28 +26,25 @@
             pattern="[1-9]\d*"
           />
         </div>
-      </div>
-
-
-      <input type="hidden" id="id" name="id"  ngModel  />
-
-
-      <div class="row">
-        <div class="col-xs-12 buttonContainer">
-          <button class="btn btn-success" type="submit" [disabled]="!f.valid">
+        <div class="buttonContainer">
+          <button
+            class="btn btn-success buttonEdit"
+            type="submit"
+            [disabled]="!f.valid"
+          >
             {{ editMode ? "Update" : "Add" }}
           </button>
 
-
-  
           <button
-            class="btn btn-primary"
+            class="btn btn-primary buttonEdit"
             type="button"
             (click)="onResetItem(f)"
           >
             Reset
           </button>
         </div>
+
+        <input type="hidden" id="id" name="id" ngModel />
       </div>
     </form>
   </div>

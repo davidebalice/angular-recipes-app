@@ -1,0 +1,76 @@
+.ingredientsTitle {
+  font-weight: bold;
+  font-size: 26px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 0px;
+  padding-top: 6px;
+}
+
+.ingredientsContainer {
+  padding: 20px 0px 0px 16px;
+}
+
+.ingredientsTitleContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.ingredientsTitleRow {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: flex;
+  width: 100%;
+  gap: 4px;
+}
+
+.ingredientsTitleRow div {
+  font-size: 16px;
+}
+
+.ingredientsRow {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 10px;
+  width: 100%;
+  gap: 4px;
+}
+
+.buttonAdd {
+  gap: 6px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.formData label {
+  font-size: 19px;
+  margin-bottom: 5px;
+  margin-top: 12px;
+}
+
+.formData input,
+select,
+textarea {
+  font-size: 19px;
+  box-shadow: 0px 0px 5px 0px rgb(0, 0, 0, 0.2) inset;
+  background-color: #f9f9f9;
+}
+
+.submitContainer {
+  border-top: 1px solid #ddd;
+  margin-top: 20px;
+  padding-top: 20px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 8px;
+}
+
+.deleteButton {
+  height: 40px;
+  width: 40px;
+}

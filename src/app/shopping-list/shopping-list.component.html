@@ -1,25 +1,45 @@
-<div class="container">
+<div class="container" id="printSection">
   <div class="page">
     <div class="pageTitle">Shopping list of Ingredients</div>
-    <div [style.display]="new || edit ? 'block' : 'none'">
+    <div [style.display]="new || edit ? 'block' : 'none'" class="noPrint">
       <app-shopping-edit (closeForm)="handleCloseForm()"></app-shopping-edit>
     </div>
-    <button (click)="onShowAdd()"><mat-icon>add</mat-icon></button>
+    <div class="buttonContainer noPrint">
+      <button (click)="onShowAdd()" class="buttonCard buttonSl">
+        <mat-icon>add_circle</mat-icon><span> Add ingredient</span>
+      </button>
+      <button class="buttonCard buttonSl" (click)="printPage()">
+        <mat-icon>print</mat-icon><span>Print list</span>
+      </button>
+    </div>
 
-    <mat-icon>print</mat-icon>
-    <hr />
     <ul class="list-group">
-      <p>list</p>
+      <div class="listRow listRowTitle">
+        <div>Ingredients</div>
+        <div>Quantity</div>
+        <div class="noPrint">Manage</div>
+      </div>
+
       <div
         class="list-group-item"
         *ngFor="let ingredient of shoppingList; let i = index"
       >
-        <a style="cursor: pointer">
-          {{ ingredient.title }} ({{ ingredient.quantity }})
-        </a>
-
-        <mat-icon (click)="onEditItem(ingredient.id)">edit</mat-icon>
-        <mat-icon (click)="onDeleteItem(ingredient.id)">delete</mat-icon>
+        <div class="listRow">
+          <div>
+            {{ ingredient.title }}
+          </div>
+          <div>
+            {{ ingredient.quantity }}
+          </div>
+          <div class="listButtonContainer noPrint">
+            <mat-icon (click)="onEditItem(ingredient.id)" class="buttonEdit"
+              >edit</mat-icon
+            >
+            <mat-icon (click)="onDeleteItem(ingredient.id)" class="buttonDelete"
+              >delete</mat-icon
+            >
+          </div>
+        </div>
       </div>
     </ul>
   </div>
