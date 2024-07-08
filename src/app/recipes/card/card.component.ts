@@ -1,9 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription, catchError, take } from 'rxjs';
 import { AppConfig } from '../../app-config';
+import { DeleteConfirmationModalComponent } from '../../components/delete-confirmation-modal/delete-confirmation-modal.component';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
+import { ListComponent } from '../list/list.component';
 
 @Component({
   selector: 'app-card',
@@ -11,11 +13,13 @@ import { RecipeService } from '../../services/recipe.service';
   styleUrl: './card.component.css',
 })
 export class CardComponent implements OnInit {
+  @ViewChild(DeleteConfirmationModalComponent)
+  deleteModal: DeleteConfirmationModalComponent;
   @Input() recipe: Recipe;
   fullStars: number = 0;
   halfStar: boolean = false;
   private subscription: Subscription;
-  constructor(private recipeService: RecipeService, private router: Router) {}
+  constructor(private recipeService: RecipeService, private router: Router,private listComponent: ListComponent ) {}
 
   ngOnInit(): void {}
 
@@ -23,22 +27,8 @@ export class CardComponent implements OnInit {
     this.router.navigate(['/recipes', this.recipe.id]);
   }
 
-  private fetchRecipes() {
-    this.subscription = this.recipeService
-      .fetchRecipes()
-      .pipe(
-        take(1),
-        catchError((error) => {
-          console.error('Error fetching recipes', error);
-          throw error;
-        })
-      )
-      .subscribe((recipes) => {
-        this.router.navigate(['/reload']).then(() => {
-          this.router.navigate(['/recipes']);
-        });
-        console.log('Updated recipes after deletion', recipes);
-      });
+  openDeleteConfirmationModal(recipeId: number) {
+    this.listComponent.openDeleteConfirmationModal(recipeId);
   }
 
   getFullImageUrl(imageUrl: string): string {
@@ -46,27 +36,6 @@ export class CardComponent implements OnInit {
       return '../../../assets/images/nophoto.jpg';
     }
     return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
-  }
-  
-  onDeleteRecipe(recipeId: number) {
-    const confirmDelete = confirm(
-      'Are you sure you want to delete this recipe?'
-    );
-    if (confirmDelete) {
-      this.subscription = this.recipeService
-        .deleteRecipe(recipeId)
-        .pipe(
-          catchError((error) => {
-            console.error('Error deleting recipe', error);
-            throw error;
-          })
-        )
-        .subscribe({
-          next: () => {
-            this.fetchRecipes();
-          },
-        });
-    }
   }
 
   onPhotoRecipe(recipeId: number) {

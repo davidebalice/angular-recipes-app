@@ -1,6 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DeleteConfirmationModalComponent } from '../../components/delete-confirmation-modal/delete-confirmation-modal.component';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -23,6 +24,8 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() page: string;
   @Input() limit: number;
   @Input() pagination: boolean;
+  @ViewChild(DeleteConfirmationModalComponent)
+  deleteModal: DeleteConfirmationModalComponent;
 
   constructor(
     private recipeService: RecipeService,
@@ -30,6 +33,20 @@ export class ListComponent implements OnInit, OnDestroy {
   ) {}
 
   isHome: boolean = false;
+
+  openDeleteConfirmationModal(recipeId: number) {
+    this.deleteModal.recipeId = recipeId;
+    this.deleteModal.open();
+  }
+
+  onDeleteConfirmed(recipeId: number): void {
+    this.subscription = this.recipeService
+      .deleteRecipe(recipeId)
+      .subscribe(() => {
+        console.log(`Recipe deleted successfully!`);
+        this.fetchRecipes();
+      });
+  }
 
   ngOnInit() {
     this.isHome = this.page === 'home';

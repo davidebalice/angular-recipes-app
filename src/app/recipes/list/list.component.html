@@ -32,3 +32,8 @@
     <img src="../../../assets/images/loading.svg" />
   </div>
 </div>
+
+<app-delete-confirmation-modal
+  #deleteModal
+  (deleteConfirmed)="onDeleteConfirmed($event)"
+></app-delete-confirmation-modal>

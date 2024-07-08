@@ -32,6 +32,7 @@ import { ShoppingListService } from './services/shopping-list.service';
 import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ThemeComponent } from './theme/theme.component';
+import { DeleteConfirmationModalComponent } from './components/delete-confirmation-modal/delete-confirmation-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { ThemeComponent } from './theme/theme.component';
     HomeComponent,
     FooterComponent,
     ThemeComponent,
+    DeleteConfirmationModalComponent,
   ],
   imports: [
     BrowserModule,
