@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription, catchError, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { AppConfig } from '../../app-config';
 import { DeleteConfirmationModalComponent } from '../../components/delete-confirmation-modal/delete-confirmation-modal.component';
 import { Recipe } from '../../model/recipe.model';
@@ -19,7 +19,11 @@ export class CardComponent implements OnInit {
   fullStars: number = 0;
   halfStar: boolean = false;
   private subscription: Subscription;
-  constructor(private recipeService: RecipeService, private router: Router,private listComponent: ListComponent ) {}
+  constructor(
+    private recipeService: RecipeService,
+    private router: Router,
+    private listComponent: ListComponent
+  ) {}
 
   ngOnInit(): void {}
 

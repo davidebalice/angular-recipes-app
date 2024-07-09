@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subject, finalize, take, takeUntil } from 'rxjs';
+import { DemoModalComponent } from '../../components/demo-modal/demo-modal.component';
 import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -22,6 +23,9 @@ export class NewComponent implements OnInit {
   imageFile: File | null = null;
   private destroy$ = new Subject<void>();
   categories$: Observable<any[]>;
+  @ViewChild(DemoModalComponent)
+  demoModal: DemoModalComponent;
+  showModal: boolean = false;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -64,16 +68,19 @@ export class NewComponent implements OnInit {
           take(1),
           finalize(() => {
             this.submitting = false;
-            this.onCancel();
           }),
           takeUntil(this.destroy$)
         )
         .subscribe({
           next: (response) => {
             console.log('Recipe added successfully', response);
+            this.onCancel();
           },
           error: (error) => {
-            //console.error('Error adding recipe', error);
+            console.error('Error adding recipe', error);
+            if (error.message.includes('Demo')) {
+              this.demoModal.open();
+            }
           },
         });
     }
@@ -86,7 +93,10 @@ export class NewComponent implements OnInit {
       formData.append('title', this.recipeForm.get('title')?.value);
       formData.append('description', this.recipeForm.get('description')?.value);
       formData.append('idCategory', this.recipeForm.get('idCategory')?.value);
-      formData.append('preparationTime', this.recipeForm.get('preparationTime')?.value);
+      formData.append(
+        'preparationTime',
+        this.recipeForm.get('preparationTime')?.value
+      );
       formData.append('cookingTime', this.recipeForm.get('cookingTime')?.value);
       formData.append('tips', this.recipeForm.get('tips')?.value);
       formData.append('difficulty', this.recipeForm.get('difficulty')?.value);
@@ -151,5 +161,9 @@ export class NewComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  closeDemoModal(): void {
+    this.showModal = false;
   }
 }

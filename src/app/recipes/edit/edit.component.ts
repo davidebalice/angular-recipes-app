@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -8,10 +8,10 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, Subject, finalize, map, take } from 'rxjs';
+import { DemoModalComponent } from '../../components/demo-modal/demo-modal.component';
 import { Recipe } from '../../model/recipe.model';
 import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
-
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
@@ -25,6 +25,9 @@ export class EditComponent implements OnInit {
   submitting = false;
   private destroy$ = new Subject<void>();
   categories$: Observable<any[]>;
+  showModal: boolean = false;
+  @ViewChild(DemoModalComponent)
+  demoModal: DemoModalComponent;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -68,15 +71,18 @@ export class EditComponent implements OnInit {
           take(1),
           finalize(() => {
             this.submitting = false;
-            this.onCancel();
           })
         )
         .subscribe({
           next: (response) => {
             console.log('Recipe updated successfully', response);
+            this.onCancel();
           },
           error: (error) => {
             console.error('Error updating recipe', error);
+            if (error.message.includes('Demo')) {
+              this.demoModal.open();
+            }
           },
         });
     }
@@ -146,5 +152,10 @@ export class EditComponent implements OnInit {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+ 
+
+  closeDemoModal(): void {
+    this.showModal = false;
   }
 }

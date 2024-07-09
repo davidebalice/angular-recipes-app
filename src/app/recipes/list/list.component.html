@@ -1,3 +1,4 @@
+<app-demo-modal (close)="closeDemoModal()"></app-demo-modal>
 <div class="row">
   <div [ngClass]="{ listContainer: !isHome }">
     <ng-container *ngIf="loadedRecipes.length > 0; else noRecipes">

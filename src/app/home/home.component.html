@@ -1,5 +1,7 @@
 <div class="container">
   <app-hero></app-hero>
-  <app-list [limit]="6" [page]="page" [pagination]="pagination"></app-list>
-  <div class="viewAll" (click)="onRecipes()">View all recipes</div>
+  <div class="listContainer">
+    <app-list [limit]="6" [page]="page" [pagination]="pagination"></app-list>
+    <div class="viewAll" (click)="onRecipes()">View all recipes</div>
+  </div>
 </div>

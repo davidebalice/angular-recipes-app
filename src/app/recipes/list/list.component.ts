@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DeleteConfirmationModalComponent } from '../../components/delete-confirmation-modal/delete-confirmation-modal.component';
+import { DemoModalComponent } from '../../components/demo-modal/demo-modal.component';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 
@@ -26,6 +27,9 @@ export class ListComponent implements OnInit, OnDestroy {
   @Input() pagination: boolean;
   @ViewChild(DeleteConfirmationModalComponent)
   deleteModal: DeleteConfirmationModalComponent;
+  showModal: boolean = false;
+  @ViewChild(DemoModalComponent)
+  demoModal: DemoModalComponent;
 
   constructor(
     private recipeService: RecipeService,
@@ -40,12 +44,23 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   onDeleteConfirmed(recipeId: number): void {
-    this.subscription = this.recipeService
-      .deleteRecipe(recipeId)
-      .subscribe(() => {
-        console.log(`Recipe deleted successfully!`);
-        this.fetchRecipes();
-      });
+    try {
+      this.subscription = this.recipeService.deleteRecipe(recipeId).subscribe(
+        () => {
+          console.log(`Recipe deleted successfully!`);
+          this.fetchRecipes();
+        },
+        (error) => {
+          console.error('Error deleting recipe:', error.error);
+          if (error.error.message.includes('Demo')) {
+            this.demoModal.open();
+          }
+          throw error;
+        }
+      );
+    } catch (error) {
+      console.error('An error occurred:', error);
+    }
   }
 
   ngOnInit() {
@@ -125,5 +140,9 @@ export class ListComponent implements OnInit, OnDestroy {
     const startIndex = (this.currentPage - 1) * this.limit;
     const endIndex = startIndex + this.limit;
     this.paginatedRecipes = this.loadedRecipes.slice(startIndex, endIndex);
+  }
+
+  closeDemoModal(): void {
+    this.showModal = false;
   }
 }

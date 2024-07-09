@@ -10,6 +10,7 @@ import { Observable, Subject, catchError, map, tap, throwError } from 'rxjs';
 import { Ingredient } from '../model/ingredient.model';
 import { Recipe } from '../model/recipe.model';
 import { ShoppingListService } from './shopping-list.service';
+import { DemoModalComponent } from '../components/demo-modal/demo-modal.component';
 
 @Injectable()
 export class RecipeService implements OnInit, OnDestroy {
@@ -20,6 +21,7 @@ export class RecipeService implements OnInit, OnDestroy {
   csrfValue: string;
   private recipes: Recipe[];
   tokenValue: string;
+  showModal: boolean = false;
 
   constructor(
     private shoppingListService: ShoppingListService,
@@ -166,7 +168,9 @@ export class RecipeService implements OnInit, OnDestroy {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-          return throwError(() => new Error('Error adding product.'));
+          return throwError(
+            () => new Error('Error adding recipe: ' + error.error.message)
+          );
         })
       );
   }
@@ -182,7 +186,7 @@ export class RecipeService implements OnInit, OnDestroy {
         if (error.status === 401) {
           this.router.navigate(['/login']);
         }
-        return throwError(() => new Error('Error adding product.'));
+        return throwError(() => new Error('Error adding recipe.'));
       })
     );
   }
@@ -204,7 +208,10 @@ export class RecipeService implements OnInit, OnDestroy {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-          return throwError(() => new Error('Error adding product.'));
+         
+          return throwError(
+            () => new Error('Error updating recipe: ' + error.error)
+          );
         })
       );
   }
@@ -232,9 +239,10 @@ export class RecipeService implements OnInit, OnDestroy {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-          return throwError(() => new Error('Error uploading image.'));
+          return throwError(() => new Error('Error uploading image: ' + error.error));
         })
       );
     }
   }
+
 }

@@ -33,6 +33,7 @@ import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ThemeComponent } from './theme/theme.component';
 import { DeleteConfirmationModalComponent } from './components/delete-confirmation-modal/delete-confirmation-modal.component';
+import { DemoModalComponent } from './components/demo-modal/demo-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,6 +56,7 @@ import { DeleteConfirmationModalComponent } from './components/delete-confirmati
     FooterComponent,
     ThemeComponent,
     DeleteConfirmationModalComponent,
+    DemoModalComponent,
   ],
   imports: [
     BrowserModule,
