@@ -154,7 +154,6 @@ export class EditComponent implements OnInit {
     this.destroy$.complete();
   }
  
-
   closeDemoModal(): void {
     this.showModal = false;
   }

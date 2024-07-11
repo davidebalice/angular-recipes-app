@@ -81,15 +81,19 @@ export class ShoppingListService {
     const headers = this.getHeaders();
     const apiUrl = '/shoppinglist/add-ingredients';
 
-    this.subscription = this.http
+    (this.subscription = this.http
       .post<Ingredient[]>(apiUrl, ingredients, { headers })
       .subscribe({
-        next: (responseData) => {
-          //salva messaggio
-        },
+        next: (responseData) => {},
         error: (error) => {
           console.error('Error adding ingredients:', error);
         },
+      })),
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 401) {
+          this.router.navigate(['/login']);
+        }
+        return throwError(() => new Error('Error adding ingredient.'));
       });
   }
 
@@ -133,7 +137,9 @@ export class ShoppingListService {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-          return throwError(() => new Error('Error adding product.'));
+          return throwError(
+            () => new Error('Error adding ingredient. ' + error.error)
+          );
         })
       );
   }
@@ -162,7 +168,9 @@ export class ShoppingListService {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-          return throwError(() => new Error('Error adding product.'));
+          return throwError(
+            () => new Error('Error adding ingredient. ' + error.error)
+          );
         })
       );
   }
@@ -182,10 +190,21 @@ export class ShoppingListService {
         });
       }),
       catchError((error: HttpErrorResponse) => {
+        /*
+        console.log('1');
+        console.log(error);
+        console.log('2');
+        console.log(error.error);
+        console.log('3');
+        console.log(error.error.message);
+        console.log('4');
+*/
         if (error.status === 401) {
           this.router.navigate(['/login']);
         }
-        return throwError(() => new Error('Error adding product.'));
+        return throwError(
+          () => new Error('Error deleting ingredient. ' + error.error.message)
+        );
       })
     );
   }

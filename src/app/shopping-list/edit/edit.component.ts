@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription, finalize, take } from 'rxjs';
+import { DemoModalComponent } from '../../components/demo-modal/demo-modal.component';
 import { Ingredient } from '../../model/ingredient.model';
 import { ShoppingListService } from '../../services/shopping-list.service';
 
@@ -24,6 +25,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
   editMode = false;
   editItem: Ingredient;
   @Output() closeForm: EventEmitter<void> = new EventEmitter<void>();
+  showModal: boolean = false;
+  @ViewChild(DemoModalComponent)
+  demoModal: DemoModalComponent;
 
   constructor(private shoppingListService: ShoppingListService) {}
 
@@ -45,6 +49,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
             console.log('Ingredient updated successfully', response);
           },
           error: (error) => {
+            if (error.message.includes('Demo')) {
+              this.demoModal.open();
+            }
             console.error('Error updating recipe', error);
           },
         });
@@ -70,6 +77,10 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
           },
           error: (error) => {
             console.error('Error updating recipe', error);
+            console.log(error);
+            if (error.message.includes('Demo')) {
+              this.demoModal.open();
+            }
           },
         });
 
@@ -108,5 +119,9 @@ export class ShoppingEditComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  closeDemoModal(): void {
+    this.showModal = false;
   }
 }

@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { DemoModalComponent } from '../components/demo-modal/demo-modal.component';
 import { Ingredient } from '../model/ingredient.model';
 import { ShoppingListService } from '../services/shopping-list.service';
 
@@ -14,6 +15,9 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   private destroy$: Subject<void> = new Subject<void>();
   new: boolean = false;
   edit: boolean = false;
+  showModal: boolean = false;
+  @ViewChild(DemoModalComponent)
+  demoModal: DemoModalComponent;
 
   constructor(private shoppingListService: ShoppingListService) {}
 
@@ -65,7 +69,10 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
           console.log('Item deleted successfully.');
         },
         error: (error) => {
-          console.error('Error deleting item:', error);
+          console.error('Error deleting item:', error.message);
+          if (error.message.includes('Demo')) {
+            this.demoModal.open();
+          }
         },
       });
     }
@@ -84,17 +91,8 @@ export class ShoppingListComponent implements OnInit, OnDestroy {
   printPage() {
     window.print();
   }
-/*
-  printPage() {
-    const printContent = document.getElementById('print-section')?.innerHTML;
-    const originalContent = document.body.innerHTML;
 
-    if (printContent) {
-      document.body.innerHTML = printContent;
-      window.print();
-      document.body.innerHTML = originalContent;
-    } else {
-      console.error('Sezione di stampa non trovata');
-    }
-  }*/
+  closeDemoModal(): void {
+    this.showModal = false;
+  }
 }

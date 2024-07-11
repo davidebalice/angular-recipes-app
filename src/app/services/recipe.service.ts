@@ -239,7 +239,7 @@ export class RecipeService implements OnInit, OnDestroy {
           if (error.status === 401) {
             this.router.navigate(['/login']);
           }
-          return throwError(() => new Error('Error uploading image: ' + error.error));
+          return throwError(() => new Error('Error uploading image 1: ' + error.error.message));
         })
       );
     }

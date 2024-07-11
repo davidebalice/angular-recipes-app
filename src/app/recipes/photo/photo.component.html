@@ -1,3 +1,4 @@
+<app-demo-modal (close)="closeDemoModal()"></app-demo-modal>
 <div class="container" *ngIf="recipe$ | async as recipe; else loading">
   <div class="page">
     <div class="pageTitle">Photo of Recipe</div>
@@ -14,7 +15,7 @@
       <form *ngIf="recipeForm" [formGroup]="recipeForm" (ngSubmit)="onSubmit()">
         <div class="row">
           <div class="col-xs-12">
-            <div class="form-group">
+            <div class="title">
               {{ recipe.title }}
             </div>
           </div>
@@ -32,12 +33,15 @@
               accept="image/*"
               (change)="uploadImage($event)"
             />
-            <button type="submit" class="btn btn-success">Upload file</button>
+            <button type="submit" class="btn btn-success buttonCard">
+              <mat-icon>publish</mat-icon>
+              Upload file
+            </button>
           </div>
         </div>
         <div class="row">
-          <div class="col-xs-12">
-            <img [src]="getFullImageUrl(imageUrl)" class="img-responsive" />
+          <div class="col-xs-12 mt-5">
+            <img [src]="getFullImageUrl(imageUrl)" class="image" />
           </div>
         </div>
       </form>

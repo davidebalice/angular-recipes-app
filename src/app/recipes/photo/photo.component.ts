@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, finalize, map, take } from 'rxjs';
 import { AppConfig } from '../../app-config';
+import { DemoModalComponent } from '../../components/demo-modal/demo-modal.component';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
-
 @Component({
   selector: 'app-photo',
   templateUrl: './photo.component.html',
@@ -20,6 +20,9 @@ export class PhotoComponent implements OnInit {
   submitting = false;
   file: any;
   imageUrl: string;
+  @ViewChild(DemoModalComponent)
+  demoModal: DemoModalComponent;
+  showModal: boolean = false;
 
   get recipeControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
@@ -78,16 +81,22 @@ export class PhotoComponent implements OnInit {
         )
         .subscribe({
           next: (response) => {
-            console.log('Recipe updated successfully', response);
+            console.log('Photo uploaded successfully', response);
           },
           error: (error) => {
             console.error('Error updating recipe', error);
+            if (error.message.includes('Demo')) {
+              this.demoModal.open();
+            }
           },
         });
     }
   }
 
   getFullImageUrl(imageUrl: string): string {
+    if (!imageUrl || imageUrl.trim() === '') {
+      return '../../../assets/images/nophoto.jpg';
+    }
     return `${AppConfig.apiUrl}/recipes/image/${imageUrl}`;
   }
 
@@ -105,5 +114,9 @@ export class PhotoComponent implements OnInit {
     this.recipeForm = new FormGroup({
       image: new FormControl(recipeImageUrl, Validators.required),
     });
+  }
+
+  closeDemoModal(): void {
+    this.showModal = false;
   }
 }
