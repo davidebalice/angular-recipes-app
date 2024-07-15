@@ -9,11 +9,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { DeleteConfirmationModalComponent } from './components/delete-confirmation-modal/delete-confirmation-modal.component';
+import { DemoModalComponent } from './components/demo-modal/demo-modal.component';
 import { DropDownDirective } from './directive/dropdown.directive';
 import { FooterComponent } from './footer/footer.component';
 import { HeaderComponent } from './header/header.component';
 import { HeroComponent } from './hero/hero.component';
 import { HomeComponent } from './home/home.component';
+import { InfoComponent } from './info/info.component';
 import { AuthInterceptor } from './interceptors/auth-interceptor';
 import { RestApiUrlInterceptor } from './interceptors/rest-api-url.interceptor';
 import { LoginComponent } from './login/login.component';
@@ -32,8 +35,6 @@ import { ShoppingListService } from './services/shopping-list.service';
 import { ShoppingEditComponent } from './shopping-list/edit/edit.component';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
 import { ThemeComponent } from './theme/theme.component';
-import { DeleteConfirmationModalComponent } from './components/delete-confirmation-modal/delete-confirmation-modal.component';
-import { DemoModalComponent } from './components/demo-modal/demo-modal.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -53,6 +54,7 @@ import { DemoModalComponent } from './components/demo-modal/demo-modal.component
     CategoriesComponent,
     HeroComponent,
     HomeComponent,
+    InfoComponent,
     FooterComponent,
     ThemeComponent,
     DeleteConfirmationModalComponent,

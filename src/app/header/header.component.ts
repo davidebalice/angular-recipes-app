@@ -33,10 +33,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
   }
 
-  onNewRecipe() {
-    this.router.navigate(['/recipes/new']);
-  }
-
   showCategories() {
     this.isCategoriesVisible = true;
   }

@@ -1,0 +1,52 @@
+.githubContainer {
+  display: flex;
+  margin: 0 auto;
+  border-top: 1px solid #ddd;
+  padding-top: 30px;
+}
+
+.githubItem {
+  font-size: 22px;
+  text-align: center;
+}
+
+.info {
+  padding-top: 40px;
+  line-height: 40px;
+}
+
+.info b {
+  font-size: 35px;
+}
+
+.info span {
+  font-size: 28px;
+}
+
+.angularLogo {
+  width: 50%;
+  max-width: 100px;
+}
+
+.springLogo {
+  width: 50%;
+  max-width: 100px;
+}
+
+.githubLogo {
+  width: 50%;
+  max-width: 120px;
+}
+
+.buttonInfo {
+  margin: 0 auto;
+  margin-top: 20px;
+  text-decoration: none;
+  font-size: 20px;
+  display: flex;
+  gap:10px
+}
+
+.buttonInfo:hover {
+  background-color: var(--primary-color-hover) !important;
+}

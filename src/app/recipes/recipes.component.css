@@ -1,11 +1,12 @@
 .searchContainer {
   display: flex;
   padding: 0px 12px;
+  gap:10px;
   padding-bottom: 20px;
 }
 
 .searchButton {
-  width: 80px;
+  width: 90px;
   background: var(--primary-color);
   color: #fff;
   display: flex;
@@ -22,4 +23,11 @@
 .searchInput {
   box-shadow: 0px 0px 6px 0px rgb(0, 0, 0, 0.26) inset;
   font-size:18px
+}
+
+.newButton{
+  width: 170px;
+  display: flex;
+  gap:8px;
+  font-size: 19px;
 }

@@ -1,9 +1,15 @@
 <div class="container">
     <div class="page">
-        <form class="searchContainer" (ngSubmit)="onSearch(searchInput.value)">
+      <form class="searchContainer" (ngSubmit)="onSearch(searchInput.value)">
+        <button class="btn searchButton newButton" routerLink="/recipes/new">
+          <mat-icon>add_circle</mat-icon>
+          <a class="nav-link" routerLinkActive="active" aria-current="page"
+            >Add recipe</a
+          >
+        </button>
             <input
               #searchInput
-              class="form-control me-2 searchInput"
+              class="form-control searchInput"
               type="search"
               placeholder="Search"
               aria-label="Search"

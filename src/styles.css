@@ -10,6 +10,10 @@ body {
   overflow-x: hidden;
 }
 
+a {
+  text-decoration: none;
+}
+
 html,
 body {
   height: 100%;
@@ -36,12 +40,15 @@ body {
   border: none;
   box-shadow: 0px 2px 1px 0px rgb(0, 0, 0, 0.4);
   border-radius: 4px;
-  color:#fff
+  color: #fff;
+  text-decoration: none !important;
+  font-style: normal !important;
 }
 
 .buttonCard:hover {
   background-color: var(--primary-color-hover);
 }
+
 
 .buttonCardDelete {
   background-color: red;
@@ -86,4 +93,8 @@ body {
 
 .white {
   color: #fff;
+}
+
+.textCenter {
+  text-align: center;
 }

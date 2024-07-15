@@ -1,16 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { HomeComponent } from './home/home.component';
+import { InfoComponent } from './info/info.component';
 import { LoginComponent } from './login/login.component';
 import { DetailComponent } from './recipes/detail/detail.component';
 import { EditComponent } from './recipes/edit/edit.component';
 import { NewComponent } from './recipes/new/new.component';
-import { RecipesComponent } from './recipes/recipes.component';
-import { HomeComponent } from './home/home.component';
 import { PhotoComponent } from './recipes/photo/photo.component';
-import { ThemeComponent } from './theme/theme.component';
+import { RecipesComponent } from './recipes/recipes.component';
 import { ReloadComponent } from './reload/reload.component';
 import { AuthGuard } from './services/auth.guard';
 import { ShoppingListComponent } from './shopping-list/shopping-list.component';
+import { ThemeComponent } from './theme/theme.component';
 
 const appRoutes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -42,6 +43,10 @@ const appRoutes: Routes = [
   {
     path: 'theme',
     component: ThemeComponent,
+  },
+  {
+    path: 'info',
+    component: InfoComponent,
   },
   { path: '**', redirectTo: 'not-found' },
 ];
