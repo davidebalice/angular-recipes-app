@@ -10,6 +10,7 @@ import { AuthService } from '../services/auth.service';
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   isLoggedIn: boolean = false;
+  isMobileMenuOpen = false;
   private authSubscription: Subscription;
   isCategoriesVisible = false;
 
@@ -39,5 +40,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   hideCategories() {
     this.isCategoriesVisible = false;
+  }
+
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
   }
 }

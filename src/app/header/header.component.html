@@ -3,7 +3,7 @@
     <a class="logoContainer" href="#"
       ><img src="../../assets/images/logoWhite.png" class="logo" />
       <br />
-      <p class="logoText">Recipe Book</p></a
+      <p class="logoText">Recipes Book</p></a
     >
 
     <img
@@ -15,15 +15,18 @@
     <button
       class="navbar-toggler"
       type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarSupportedContent"
+      (click)="toggleMobileMenu()"
       aria-controls="navbarSupportedContent"
-      aria-expanded="false"
       aria-label="Toggle navigation"
     >
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+    <div
+      class="collapse navbar-collapse"
+      [ngClass]="{ show: isMobileMenuOpen }"
+      id="navbarSupportedContent"
+    >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbarNav">
         <li class="nav-item navButton" routerLink="/home">
           <mat-icon>home</mat-icon>
@@ -37,9 +40,6 @@
             >Recipes</a
           >
         </li>
-
-       
-
         <li
           class="nav-item navButton categoryButton"
           (mouseenter)="showCategories()"
@@ -68,6 +68,25 @@
         <li class="nav-item navButton" routerLink="/info">
           <mat-icon>info</mat-icon>
           <a class="nav-link">Info</a>
+        </li>
+
+        <li class="nav-item navButton mobileButton">
+          <mat-icon>logout</mat-icon>
+          <a class="nav-link">Logout</a>
+        </li>
+
+        <li class="nav-item navButton mobileButton">
+          <img
+            src="../../assets/images/githubWhite.png"
+            alt="logo github"
+            class="logoGithub"
+            style="width: 26px; margin-left: -4px"
+          />
+          <a
+            href="https://github.com/davidebalice/angular-recipes-app"
+            target="_blank"
+            >Github</a
+          >
         </li>
       </ul>
 

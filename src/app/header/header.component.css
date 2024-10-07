@@ -4,6 +4,10 @@
   padding: 0;
 }
 
+.show {
+  display: block;
+}
+
 .logoContainer {
   text-align: center;
   margin-top: 10px;
@@ -80,15 +84,33 @@
   align-items: center;
 }
 
-.logoutButton{
-  border:none;
+.logoutButton {
+  border: none;
   background: none;
-  width:50px;
-  height:50px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
   font-size: 44px;
   cursor: pointer;
+}
+
+.mobileButton {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .nav-item {
+    padding: 0 !important;
+    height: 52px !important;
+    gap: 9px;
+  }
+  .rightHeader {
+    display: none;
+  }
+  .mobileButton {
+    display: flex;
+  }
 }
