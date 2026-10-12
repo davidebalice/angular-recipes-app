@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { NgModule, provideZoneChangeDetection } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -69,9 +69,10 @@ import { ThemeComponent } from './theme/theme.component';
     MatIconModule,
     MatTooltipModule,
     MatButtonModule,
-    PaginationModule.forRoot(),
+    PaginationModule,
   ],
   providers: [
+    provideZoneChangeDetection(),
     ShoppingListService,
     AuthService,
     RecipeService,

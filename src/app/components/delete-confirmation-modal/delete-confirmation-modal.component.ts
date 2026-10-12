@@ -1,9 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Modal } from 'bootstrap';
 
 @Component({
+  standalone: false,
   selector: 'app-delete-confirmation-modal',
   templateUrl: './delete-confirmation-modal.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./delete-confirmation-modal.component.css'],
 })
 export class DeleteConfirmationModalComponent {

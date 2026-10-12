@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, finalize, map, take } from 'rxjs';
@@ -7,8 +7,10 @@ import { DemoModalComponent } from '../../components/demo-modal/demo-modal.compo
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 @Component({
+  standalone: false,
   selector: 'app-photo',
   templateUrl: './photo.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './photo.component.css',
 })
 export class PhotoComponent implements OnInit {

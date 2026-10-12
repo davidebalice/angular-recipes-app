@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { Category } from '../../model/category.model';
@@ -7,8 +7,10 @@ import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({
+  standalone: false,
   selector: 'app-categories',
   templateUrl: './categories.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./categories.component.css'],
 })
 export class CategoriesComponent implements OnInit, OnDestroy {

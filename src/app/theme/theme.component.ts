@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
+  standalone: false,
   selector: 'app-theme',
   templateUrl: './theme.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './theme.component.css',
 })
 export class ThemeComponent {

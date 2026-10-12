@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
+  standalone: false,
   selector: 'app-info',
   templateUrl: './info.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './info.component.css',
 })
 export class InfoComponent {

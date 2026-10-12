@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ChangeDetectionStrategy
 } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Subscription, finalize, take } from 'rxjs';
@@ -13,8 +14,10 @@ import { Ingredient } from '../../model/ingredient.model';
 import { ShoppingListService } from '../../services/shopping-list.service';
 
 @Component({
+  standalone: false,
   selector: 'app-shopping-edit',
   templateUrl: './edit.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './edit.component.css',
 })
 export class ShoppingEditComponent implements OnInit, OnDestroy {

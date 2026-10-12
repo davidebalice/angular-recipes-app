@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { DemoModalComponent } from '../components/demo-modal/demo-modal.component';
@@ -6,8 +6,10 @@ import { Ingredient } from '../model/ingredient.model';
 import { ShoppingListService } from '../services/shopping-list.service';
 
 @Component({
+  standalone: false,
   selector: 'app-shopping-list',
   templateUrl: './shopping-list.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrls: ['./shopping-list.component.css'],
 })
 export class ShoppingListComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -13,8 +13,10 @@ import { CategoryService } from '../../services/category.service';
 import { RecipeService } from '../../services/recipe.service';
 
 @Component({
+  standalone: false,
   selector: 'app-new',
   templateUrl: './new.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './new.component.css',
 })
 export class NewComponent implements OnInit {

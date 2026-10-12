@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Recipe } from '../model/recipe.model';
 import { RecipeService } from '../services/recipe.service';
 
 @Component({
+  standalone: false,
   selector: 'app-recipes',
   templateUrl: './recipes.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './recipes.component.css',
 })
 export class RecipesComponent implements OnInit {

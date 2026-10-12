@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription, catchError } from 'rxjs';
 import { AppConfig } from '../../app-config';
 import { Recipe } from '../../model/recipe.model';
 import { RecipeService } from '../../services/recipe.service';
 @Component({
+  standalone: false,
   selector: 'app-detail',
   templateUrl: './detail.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './detail.component.css',
 })
 export class DetailComponent implements OnInit {

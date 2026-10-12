@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { AppConfig } from '../../app-config';
@@ -8,8 +8,10 @@ import { RecipeService } from '../../services/recipe.service';
 import { ListComponent } from '../list/list.component';
 
 @Component({
+  standalone: false,
   selector: 'app-card',
   templateUrl: './card.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
   styleUrl: './card.component.css',
 })
 export class CardComponent implements OnInit {
